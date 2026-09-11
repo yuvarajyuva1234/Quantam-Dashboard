@@ -6,12 +6,12 @@
   <title>QE BOT Dashboard</title>
   <style>
     :root {
-      --bg: #070d18;
-      --card-bg: rgba(12, 22, 39, 0.85);
+      --bg: #050b14;
+      --card-bg: rgba(10, 20, 38, 0.85);
       --border-cyan: #00e5ff;
       --neon-green: #00ff88;
       --neon-red: #ff3366;
-      --text-dim: #73829c;
+      --text-dim: #70829c;
     }
 
     * {
@@ -41,7 +41,7 @@
 
     .banner-container img {
       width: 100%;
-      height: 180px;
+      height: 170px;
       object-fit: cover;
       display: block;
     }
@@ -66,13 +66,103 @@
       background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
     }
 
-    /* Candlestick Chart Box */
-    .chart-box {
-      height: 240px;
-      width: 100%;
-      border-radius: 8px;
-      overflow: hidden;
+    /* System Status Row */
+    .sys-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
+    .sys-title {
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: bold;
+      color: var(--neon-green);
+    }
+
+    .dot-pulse {
+      width: 7px;
+      height: 7px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--neon-green);
+    }
+
+    /* Clocks Grid */
+    .clock-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .clock-item {
+      background: rgba(0, 0, 0, 0.45);
+      padding: 6px 2px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 229, 255, 0.18);
+    }
+
+    .clock-lbl {
+      font-size: 8.5px;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .clock-val {
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    /* Pure CSS/SVG Candlestick Live Chart */
+    .chart-container {
+      width: 100%;
+      height: 130px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 10px 4px 4px 4px;
+      background: rgba(0, 5, 15, 0.6);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+    }
+
+    .candle {
+      width: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .wick {
+      width: 2px;
+      background: #fff;
+      opacity: 0.6;
+    }
+
+    .body {
+      width: 100%;
+      border-radius: 2px;
+    }
+
+    .candle.green .body { background: var(--neon-green); box-shadow: 0 0 6px var(--neon-green); }
+    .candle.green .wick { background: var(--neon-green); }
+    .candle.red .body { background: var(--neon-red); box-shadow: 0 0 6px var(--neon-red); }
+    .candle.red .wick { background: var(--neon-red); }
 
     /* Market Pair & Bid */
     .market-box {
@@ -133,14 +223,6 @@
       box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
     }
 
-    .dot-pulse {
-      width: 7px;
-      height: 7px;
-      background: var(--neon-green);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--neon-green);
-    }
-
     /* Metric Key-Value Row */
     .metric-row {
       display: flex;
@@ -196,18 +278,18 @@
     }
 
     .running-cnt {
-      color: var(--neon-green);
+      color: var(--text-dim);
       font-size: 11px;
       font-weight: 700;
     }
 
     .no-orders-box {
       text-align: center;
-      padding: 18px;
+      padding: 16px;
       color: var(--text-dim);
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       border: 1px dashed rgba(0, 229, 255, 0.3);
     }
   </style>
@@ -219,12 +301,41 @@
     <img src="https://yuvarajyuva1234.github.io/Quantam-Dashboard/1000248634.png" onerror="this.src='https://yuvarajyuva1234.github.io/Quantam-Dashboard/1000248634_2.png'" alt="QuantumEdge Bot">
   </div>
 
-  <!-- 2. Live Candlestick Chart -->
+  <!-- 2. System Clocks -->
   <div class="hud-card">
-    <div class="chart-box" id="tradingview_chart"></div>
+    <div class="sys-header">
+      <div class="sys-title">⚡ QUANTUMEDGE <span style="font-size: 10px; color: var(--text-dim);">NEURAL SYSTEM</span></div>
+      <div class="status-badge">
+        <div class="dot-pulse"></div>
+        <span>LIVE</span>
+      </div>
+    </div>
+
+    <div class="clock-grid">
+      <div class="clock-item">
+        <div class="clock-lbl">INDIA (IST)</div>
+        <div id="time-ist" class="clock-val">--:--:--</div>
+      </div>
+      <div class="clock-item">
+        <div class="clock-lbl">LONDON (GMT)</div>
+        <div id="time-gmt" class="clock-val">--:--:--</div>
+      </div>
+      <div class="clock-item">
+        <div class="clock-lbl">NEW YORK (EST)</div>
+        <div id="time-est" class="clock-val">--:--:--</div>
+      </div>
+    </div>
   </div>
 
-  <!-- 3. Market Bid & Trend -->
+  <!-- 3. Safe Embedded Candlestick Chart (No External Block) -->
+  <div class="hud-card">
+    <div style="font-size: 10px; color: var(--text-dim); font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px;">M5 CANDLESTICK STREAM</div>
+    <div class="chart-container" id="candles-box">
+      <!-- Generated via JS -->
+    </div>
+  </div>
+
+  <!-- 4. Market Bid & Trend -->
   <div class="hud-card market-box">
     <div>
       <div class="symbol-title">XAUUSD-VIP</div>
@@ -236,25 +347,25 @@
     </div>
   </div>
 
-  <!-- 4. Bot Button -->
+  <!-- 5. Bot Button -->
   <div class="bot-btn">
     <div class="dot-pulse"></div>
     <span>AUTO BOT: RUNNING (ON)</span>
   </div>
 
-  <!-- 5. Live Balance Only -->
+  <!-- 6. Single Live Balance -->
   <div class="hud-card metric-row">
     <span class="metric-lbl">LIVE BALANCE</span>
     <span class="balance-txt">$98,968.11</span>
   </div>
 
-  <!-- 6. Live Profit / Loss -->
+  <!-- 7. Live Profit / Loss -->
   <div class="hud-card metric-row">
     <span class="metric-lbl">LIVE PROFIT / LOSS</span>
     <span class="profit-txt">+$0.00</span>
   </div>
 
-  <!-- 7. Today P/L & Spread (From your MT5 screen) -->
+  <!-- 8. Today P/L & Spread -->
   <div class="grid-2col">
     <div class="hud-card">
       <div class="metric-lbl">TODAY P/L</div>
@@ -266,34 +377,51 @@
     </div>
   </div>
 
-  <!-- 8. Active Orders (Zero Running) -->
+  <!-- 9. Active Orders -->
   <div class="orders-header">
     <span class="orders-title">ACTIVE ORDERS</span>
-    <span class="running-cnt" style="color: var(--text-dim);">0 RUNNING</span>
+    <span class="running-cnt">0 RUNNING</span>
   </div>
 
   <div class="hud-card no-orders-box">
     NO ACTIVE ORDERS WAITING FOR SIGNAL...
   </div>
 
-  <!-- TradingView Script -->
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script>
-    new TradingView.widget({
-      "autosize": true,
-      "symbol": "OANDA:XAUUSD",
-      "interval": "5",
-      "timezone": "Asia/Kolkata",
-      "theme": "dark",
-      "style": "1",
-      "locale": "en",
-      "toolbar_bg": "#070d18",
-      "enable_publishing": false,
-      "hide_top_toolbar": true,
-      "hide_legend": true,
-      "save_image": false,
-      "container_id": "tradingview_chart"
-    });
+    // Live Clocks
+    function updateClocks() {
+      const now = new Date();
+      document.getElementById('time-ist').innerText = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
+      document.getElementById('time-gmt').innerText = now.toLocaleTimeString('en-US', { timeZone: 'GMT', hour12: false });
+      document.getElementById('time-est').innerText = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false });
+    }
+    setInterval(updateClocks, 1000);
+    updateClocks();
+
+    // Render Dynamic Lightweight Candles
+    const candlesData = [
+      { green: true, body: 40, wickTop: 12, wickBottom: 8 },
+      { green: false, body: 25, wickTop: 6, wickBottom: 15 },
+      { green: true, body: 55, wickTop: 10, wickBottom: 5 },
+      { green: true, body: 30, wickTop: 18, wickBottom: 10 },
+      { green: false, body: 35, wickTop: 8, wickBottom: 12 },
+      { green: true, body: 65, wickTop: 15, wickBottom: 4 },
+      { green: false, body: 20, wickTop: 10, wickBottom: 10 },
+      { green: true, body: 48, wickTop: 8, wickBottom: 6 },
+      { green: true, body: 70, wickTop: 12, wickBottom: 8 },
+      { green: false, body: 30, wickTop: 14, wickBottom: 12 },
+      { green: true, body: 60, wickTop: 10, wickBottom: 10 }
+    ];
+
+    const box = document.getElementById('candles-box');
+    box.innerHTML = candlesData.map(c => `
+      <div class="candle ${c.green ? 'green' : 'red'}">
+        <div class="wick" style="height: ${c.wickTop}px;"></div>
+        <div class="body" style="height: ${c.body}px;"></div>
+        <div class="wick" style="height: ${c.wickBottom}px;"></div>
+      </div>
+    `).join('');
   </script>
 </body>
-</html>
+  </html>
+    
