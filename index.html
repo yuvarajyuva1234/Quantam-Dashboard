@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuantumEdge Pro Bot</title>
+  <title>QE BOT Dashboard</title>
   <style>
     :root {
-      --bg: #030712;
-      --card-bg: rgba(10, 20, 38, 0.75);
+      --bg: #070d18;
+      --card-bg: rgba(12, 22, 39, 0.85);
       --border-cyan: #00e5ff;
       --neon-green: #00ff88;
+      --neon-red: #ff3366;
       --neon-amber: #ffaa00;
-      --text-dim: #70829c;
+      --text-dim: #73829c;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     body {
@@ -27,99 +28,73 @@
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
-    /* Banner Box */
-    .banner-box {
+    /* Robot Banner Box */
+    .banner-container {
       width: 100%;
-      border-radius: 14px;
+      border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(0, 229, 255, 0.3);
+      border: 1.5px solid rgba(0, 229, 255, 0.4);
       box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
     }
-    .banner-box img {
+
+    .banner-container img {
       width: 100%;
       height: 170px;
       object-fit: cover;
       display: block;
     }
 
-    /* Cyberpunk HUD Frame */
+    /* HUD Glow Card */
     .hud-card {
       background: var(--card-bg);
       border: 1.5px solid var(--border-cyan);
       border-radius: 12px;
       padding: 12px 14px;
       position: relative;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 0 12px rgba(0, 229, 255, 0.15), inset 0 0 8px rgba(0, 229, 255, 0.1);
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.15), inset 0 0 8px rgba(0, 229, 255, 0.08);
     }
 
     .hud-card::before {
       content: '';
       position: absolute;
-      top: -2px;
+      top: -1.5px;
       left: 15%;
       width: 70%;
-      height: 2px;
+      height: 1.5px;
       background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
     }
 
-    /* Account & Neural Status */
-    .account-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .badge-demo {
-      background: rgba(255, 170, 0, 0.15);
-      color: var(--neon-amber);
-      border: 1px solid var(--neon-amber);
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 11px;
-    }
-    .badge-live {
-      background: rgba(0, 255, 136, 0.15);
-      color: var(--neon-green);
-      border: 1px solid var(--neon-green);
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 11px;
-    }
-    .broker-text {
-      color: var(--border-cyan);
-      font-weight: 600;
-      font-size: 13px;
-    }
-
-    /* System Status */
+    /* System Status Row */
     .sys-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 4px;
     }
+
     .sys-title {
-      font-weight: bold;
-      font-size: 14px;
+      font-weight: 800;
+      font-size: 13px;
       letter-spacing: 1px;
-      color: #fff;
-    }
-    .status-indicator {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
       font-weight: bold;
       color: var(--neon-green);
     }
-    .dot {
-      width: 8px;
-      height: 8px;
+
+    .dot-pulse {
+      width: 7px;
+      height: 7px;
       background: var(--neon-green);
       border-radius: 50%;
       box-shadow: 0 0 8px var(--neon-green);
@@ -129,130 +104,201 @@
     .clock-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 6px;
       text-align: center;
       margin-top: 10px;
     }
+
     .clock-item {
-      background: rgba(0, 0, 0, 0.4);
-      padding: 6px 4px;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 6px 2px;
       border-radius: 6px;
-      border: 1px solid rgba(0, 229, 255, 0.2);
-    }
-    .clock-lbl {
-      font-size: 9px;
-      color: var(--text-dim);
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-    .clock-val {
-      font-size: 12px;
-      font-weight: bold;
-      color: #fff;
+      border: 1px solid rgba(0, 229, 255, 0.18);
     }
 
-    /* Market Card (Bid + Trend) */
+    .clock-lbl {
+      font-size: 8.5px;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .clock-val {
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    /* Candlestick Chart Box */
+    .chart-box {
+      height: 260px;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 229, 255, 0.25);
+    }
+
+    /* Market Pair & Bid */
     .market-box {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .pair-name {
+
+    .symbol-title {
       font-size: 18px;
-      font-weight: bold;
-      letter-spacing: 0.5px;
+      font-weight: 800;
     }
-    .trend-badge {
+
+    .trend-tag {
       display: inline-block;
-      margin-top: 4px;
-      padding: 2px 8px;
-      font-size: 10px;
-      font-weight: bold;
+      margin-top: 3px;
+      padding: 2px 7px;
+      font-size: 9.5px;
+      font-weight: 700;
       border-radius: 4px;
       background: rgba(0, 255, 136, 0.15);
       color: var(--neon-green);
       border: 1px solid var(--neon-green);
     }
-    .bid-area {
+
+    .bid-side {
       text-align: right;
     }
-    .bid-price {
+
+    .bid-num {
       font-size: 22px;
-      font-weight: bold;
+      font-weight: 800;
       color: var(--border-cyan);
-      text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
-    }
-    .bid-lbl {
-      font-size: 10px;
-      color: var(--text-dim);
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
     }
 
-    /* Bot Running State Button */
-    .bot-status-btn {
+    .bid-lbl {
+      font-size: 9px;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    /* Bot Execution Button */
+    .bot-btn {
       width: 100%;
-      padding: 12px;
+      padding: 11px;
       background: rgba(0, 255, 136, 0.08);
       border: 1.5px solid var(--neon-green);
       border-radius: 10px;
       color: var(--neon-green);
-      font-weight: bold;
-      font-size: 13px;
+      font-weight: 800;
+      font-size: 12px;
       letter-spacing: 1px;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
     }
 
-    /* Live Balance & Profit Rows */
+    /* Metric Key-Value Row */
     .metric-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .metric-label {
-      font-size: 12px;
+
+    .metric-lbl {
+      font-size: 11px;
       color: var(--text-dim);
-      font-weight: bold;
-      letter-spacing: 1px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
     }
-    .balance-val {
-      font-size: 22px;
-      font-weight: bold;
+
+    .balance-txt {
+      font-size: 21px;
+      font-weight: 800;
       color: #fff;
     }
-    .profit-val {
-      font-size: 20px;
-      font-weight: bold;
+
+    .profit-txt {
+      font-size: 19px;
+      font-weight: 800;
       color: var(--neon-green);
-      text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+    }
+
+    /* Two Columns Row */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat-val-sm {
+      font-size: 17px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    /* Orders Section */
+    .orders-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 4px 2px 2px 2px;
+    }
+
+    .orders-title {
+      color: var(--border-cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+    }
+
+    .running-cnt {
+      color: var(--neon-green);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .order-card {
+      border-left: 4px solid var(--neon-green);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+    }
+
+    .order-id {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .order-meta {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .order-profit {
+      font-size: 14px;
+      font-weight: 800;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Banner -->
-  <div class="banner-box">
-    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="QuantumEdge Bot">
+  <!-- Robot Banner -->
+  <div class="banner-container">
+    <img src="https://yuvarajyuva1234.github.io/Quantam-Dashboard/1000248634.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'" alt="QuantumEdge Bot">
   </div>
 
-  <!-- Account Type, Broker & Neural System -->
+  <!-- System Clocks -->
   <div class="hud-card">
-    <div class="account-row">
-      <span id="acc-type" class="badge-demo">DEMO ACCOUNT</span>
-      <span id="acc-broker" class="broker-text">EXNESS: 8492019</span>
-    </div>
-    
-    <div class="sys-header" style="margin-top: 12px;">
-      <span class="sys-title">⚡ QUANTUMEDGE</span>
-      <div class="status-indicator">
-        <div class="dot"></div>
+    <div class="sys-header">
+      <div class="sys-title">⚡ QUANTUMEDGE <span style="font-size: 10px; color: var(--text-dim);">NEURAL SYSTEM</span></div>
+      <div class="status-badge">
+        <div class="dot-pulse"></div>
         <span>LIVE</span>
       </div>
     </div>
 
-    <!-- Clocks -->
     <div class="clock-grid">
       <div class="clock-item">
         <div class="clock-lbl">INDIA (IST)</div>
@@ -269,38 +315,96 @@
     </div>
   </div>
 
-  <!-- Market Bid & Trend Card -->
+  <!-- Live Candlestick Chart (XAUUSD) -->
+  <div class="hud-card">
+    <div class="chart-box" id="tradingview_chart"></div>
+  </div>
+
+  <!-- Market Bid & Trend -->
   <div class="hud-card market-box">
     <div>
-      <div class="pair-name">XAUUSD-VIP</div>
-      <span id="market-trend" class="trend-badge">BULLISH TREND</span>
+      <div class="symbol-title">XAUUSD</div>
+      <span class="trend-tag">BULLISH TREND</span>
     </div>
-    <div class="bid-area">
-      <div id="live-bid" class="bid-price">4367.39</div>
+    <div class="bid-side">
+      <div class="bid-num">4367.39</div>
       <div class="bid-lbl">LIVE BID</div>
     </div>
   </div>
 
-  <!-- Auto Bot Active Status -->
-  <div class="bot-status-btn">
-    <div class="dot"></div>
+  <!-- Bot Button -->
+  <div class="bot-btn">
+    <div class="dot-pulse"></div>
     <span>AUTO BOT: RUNNING (ON)</span>
   </div>
 
-  <!-- Live Balance (Only Balance, No Equity) -->
+  <!-- Live Balance Only -->
   <div class="hud-card metric-row">
-    <span class="metric-label">LIVE BALANCE</span>
-    <span id="live-balance" class="balance-val">$98,968.11</span>
+    <span class="metric-lbl">LIVE BALANCE</span>
+    <span class="balance-txt">$98,968.11</span>
   </div>
 
   <!-- Live Profit / Loss -->
   <div class="hud-card metric-row">
-    <span class="metric-label">LIVE PROFIT / LOSS</span>
-    <span id="live-profit" class="profit-val">+$0.00</span>
+    <span class="metric-lbl">LIVE PROFIT / LOSS</span>
+    <span class="profit-txt">+$0.00</span>
   </div>
 
+  <!-- Today P/L & Basket Status -->
+  <div class="grid-2col">
+    <div class="hud-card">
+      <div class="metric-lbl">TODAY P/L</div>
+      <div class="stat-val-sm" style="color: var(--neon-red);">-$12.00</div>
+    </div>
+    <div class="hud-card">
+      <div class="metric-lbl">BASKET STATUS</div>
+      <div class="stat-val-sm">3 / 3</div>
+    </div>
+  </div>
+
+  <!-- Active Orders -->
+  <div class="orders-header">
+    <span class="orders-title">ACTIVE ORDERS</span>
+    <span class="running-cnt">2 RUNNING</span>
+  </div>
+
+  <div class="hud-card order-card">
+    <div>
+      <div class="order-id">#691675201 BUY</div>
+      <div class="order-meta">Price: 4349.71 | Time: 13:20:00</div>
+    </div>
+    <div class="order-profit" style="color: var(--neon-red);">-$1.76</div>
+  </div>
+
+  <div class="hud-card order-card">
+    <div>
+      <div class="order-id">#691675155 BUY</div>
+      <div class="order-meta">Price: 4349.71 | Time: 13:20:00</div>
+    </div>
+    <div class="order-profit" style="color: var(--neon-red);">-$1.76</div>
+  </div>
+
+  <!-- TradingView Library Script -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script>
-    // Live Clocks update
+    // Live Candlestick Chart Widget
+    new TradingView.widget({
+      "autosize": true,
+      "symbol": "OANDA:XAUUSD",
+      "interval": "15",
+      "timezone": "Asia/Kolkata",
+      "theme": "dark",
+      "style": "1", // 1 = Candlestick
+      "locale": "en",
+      "toolbar_bg": "#070d18",
+      "enable_publishing": false,
+      "hide_top_toolbar": true,
+      "hide_legend": true,
+      "save_image": false,
+      "container_id": "tradingview_chart"
+    });
+
+    // Live Clocks
     function updateClocks() {
       const now = new Date();
       document.getElementById('time-ist').innerText = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
@@ -309,35 +413,6 @@
     }
     setInterval(updateClocks, 1000);
     updateClocks();
-
-    // Data updater function
-    function updateDashboard(isLive, broker, accNo, trend, bid, balance, profit) {
-      // Account Type
-      const typeEl = document.getElementById("acc-type");
-      typeEl.innerText = isLive ? "REAL ACCOUNT" : "DEMO ACCOUNT";
-      typeEl.className = isLive ? "badge-live" : "badge-demo";
-
-      // Broker & Account Number
-      document.getElementById("acc-broker").innerText = `${broker}: ${accNo}`;
-
-      // Market Trend
-      const trendEl = document.getElementById("market-trend");
-      trendEl.innerText = trend.toUpperCase();
-      trendEl.style.color = trend.toLowerCase().includes("bull") ? "#00ff88" : "#ff4444";
-      trendEl.style.borderColor = trendEl.style.color;
-
-      // Bid, Balance, Profit
-      document.getElementById("live-bid").innerText = bid.toFixed(2);
-      document.getElementById("live-balance").innerText = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-      
-      const profitEl = document.getElementById("live-profit");
-      profitEl.innerText = (profit >= 0 ? `+$${profit.toFixed(2)}` : `-$${Math.abs(profit).toFixed(2)}`);
-      profitEl.style.color = profit >= 0 ? "#00ff88" : "#ff4444";
-    }
-
-    // Default configuration (Edit values as needed)
-    updateDashboard(false, "EXNESS", "8492019", "BULLISH TREND", 4367.39, 98968.11, 0.00);
   </script>
 </body>
-                                             </html>
-  
+</html>
