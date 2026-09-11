@@ -4,107 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#030712">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>QUANTUM EDGE PRO</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
     body {
       background: radial-gradient(circle at 50% 5%, #0d1b2a, #020617 85%);
-      color: #ffffff;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-height: 100vh;
+      color: #ffffff; padding: 12px; display: flex; flex-direction: column; gap: 10px; min-height: 100vh;
     }
-
     .top-brand-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 14px;
+      display: flex; justify-content: space-between; align-items: center; padding: 10px 14px;
       background: linear-gradient(90deg, rgba(0, 229, 255, 0.15), rgba(112, 0, 255, 0.2));
-      border: 1.5px solid #00e5ff;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+      border: 1.5px solid #00e5ff; border-radius: 12px; box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
     }
-
-    .brand-title {
-      font-weight: 900;
-      font-size: 15px;
-      letter-spacing: 1.5px;
-      color: #00e5ff;
-      text-shadow: 0 0 10px #00e5ff;
-    }
-
-    .brand-badge {
-      font-size: 10px;
-      font-weight: 800;
-      color: #00ff88;
-      background: rgba(0, 255, 136, 0.12);
-      border: 1px solid #00ff88;
-      padding: 3px 8px;
-      border-radius: 6px;
-      letter-spacing: 1px;
-    }
-
+    .brand-title { font-weight: 900; font-size: 15px; letter-spacing: 1.5px; color: #00e5ff; text-shadow: 0 0 10px #00e5ff; }
+    .brand-badge { font-size: 10px; font-weight: 800; color: #00ff88; background: rgba(0, 255, 136, 0.12); border: 1px solid #00ff88; padding: 3px 8px; border-radius: 6px; }
+    
     .glass-card {
       background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(2, 6, 23, 0.95));
-      border-radius: 12px;
-      padding: 12px 14px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      border-radius: 12px; padding: 12px 14px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
-
-    .border-cyan {
-      border: 1.5px solid rgba(0, 229, 255, 0.4);
-      box-shadow: inset 0 0 12px rgba(0, 229, 255, 0.08), 0 0 14px rgba(0, 229, 255, 0.2);
-    }
-
-    .border-gold {
-      border: 1.5px solid rgba(255, 215, 0, 0.5);
-      box-shadow: inset 0 0 12px rgba(255, 215, 0, 0.1), 0 0 15px rgba(255, 215, 0, 0.25);
-    }
-
-    .border-green {
-      border: 1.5px solid rgba(0, 255, 136, 0.4);
-      box-shadow: inset 0 0 12px rgba(0, 255, 136, 0.08), 0 0 14px rgba(0, 255, 136, 0.2);
-    }
-
-    .border-purple {
-      border: 1.5px solid rgba(199, 125, 255, 0.35);
-      box-shadow: inset 0 0 12px rgba(199, 125, 255, 0.08), 0 0 14px rgba(199, 125, 255, 0.2);
-    }
+    .border-cyan { border: 1.5px solid rgba(0, 229, 255, 0.4); box-shadow: 0 0 14px rgba(0, 229, 255, 0.2); }
+    .border-gold { border: 1.5px solid rgba(255, 215, 0, 0.5); box-shadow: 0 0 15px rgba(255, 215, 0, 0.25); }
+    .border-green { border: 1.5px solid rgba(0, 255, 136, 0.4); box-shadow: 0 0 14px rgba(0, 255, 136, 0.2); }
+    .border-purple { border: 1.5px solid rgba(199, 125, 255, 0.35); box-shadow: 0 0 14px rgba(199, 125, 255, 0.2); }
 
     .sys-header { display: flex; justify-content: space-between; align-items: center; }
-    .sys-title {
-      font-weight: 900; font-size: 12px; letter-spacing: 1px;
-      background: linear-gradient(90deg, #00e5ff, #c77dff);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .pulse-badge {
-      display: flex; align-items: center; gap: 6px;
-      background: rgba(0, 255, 136, 0.12); border: 1px solid #00ff88;
-      border-radius: 20px; padding: 3px 8px; font-size: 10px; font-weight: 800; color: #00ff88;
-    }
-    .dot-glow {
-      width: 7px; height: 7px; background: #00ff88; border-radius: 50%;
-      box-shadow: 0 0 8px #00ff88; animation: pulse 1.2s infinite ease-in-out;
-    }
+    .sys-title { font-weight: 900; font-size: 12px; letter-spacing: 1px; background: linear-gradient(90deg, #00e5ff, #c77dff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .pulse-badge { display: flex; align-items: center; gap: 6px; background: rgba(0, 255, 136, 0.12); border: 1px solid #00ff88; border-radius: 20px; padding: 3px 8px; font-size: 10px; font-weight: 800; color: #00ff88; }
+    .dot-glow { width: 7px; height: 7px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; animation: pulse 1.2s infinite ease-in-out; }
     @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.3); opacity: 1; } }
 
     .clock-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
-    .clock-chip {
-      background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px; padding: 5px 2px; text-align: center;
-    }
+    .clock-chip { background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6px; padding: 5px 2px; text-align: center; }
     .clock-lbl { font-size: 8px; color: #94a3b8; font-weight: 700; }
     .clock-val { font-size: 11px; font-weight: 800; color: #f8fafc; margin-top: 2px; font-variant-numeric: tabular-nums; }
 
@@ -115,15 +47,12 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
     }
-    .trend-pill {
-      display: inline-block; margin-top: 4px; padding: 3px 8px; font-size: 9px;
-      font-weight: 900; border-radius: 5px; transition: all 0.4s ease;
-    }
-    .trend-bullish { background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.3); }
-    .trend-bearish { background: rgba(255, 51, 102, 0.15); color: #ff3366; border: 1px solid #ff3366; box-shadow: 0 0 10px rgba(255,51,102,0.3); }
+    .trend-pill { display: inline-block; margin-top: 4px; padding: 3px 8px; font-size: 9px; font-weight: 900; border-radius: 5px; }
+    .trend-bullish { background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid #00ff88; }
+    .trend-bearish { background: rgba(255, 51, 102, 0.15); color: #ff3366; border: 1px solid #ff3366; }
 
     .bid-display { font-size: 24px; font-weight: 900; color: #00e5ff; text-shadow: 0 0 12px rgba(0, 229, 255, 0.6); text-align: right; }
-    .bid-sub { font-size: 9px; color: #64748b; font-weight: 700; letter-spacing: 1px; text-align: right; }
+    .bid-sub { font-size: 9px; color: #64748b; font-weight: 700; text-align: right; }
 
     .bot-glow-btn {
       width: 100%; padding: 11px;
@@ -133,187 +62,83 @@
       box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
     }
 
-    /* Radar Box Animation */
-    .radar-box {
-      width: 100%;
-      height: 125px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
+    /* Radar Area */
+    .radar-box { width: 100%; height: 125px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+    .radar-circles { position: relative; width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .radar-circle-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 1.5px solid currentColor; opacity: 0.35; animation: radarRings 2.5s infinite linear; }
+    .radar-circle-mid { position: absolute; width: 65%; height: 65%; border-radius: 50%; border: 1.5px dashed currentColor; opacity: 0.55; animation: radarRotate 6s infinite linear reverse; }
+    .radar-circle-inner { position: absolute; width: 35%; height: 35%; border-radius: 50%; border: 1.5px solid currentColor; opacity: 0.85; }
+    .radar-sweep { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(from 0deg, transparent 65%, currentColor 100%); opacity: 0.5; animation: radarRotate 2.2s infinite linear; }
+    .radar-center-blip { width: 8px; height: 8px; border-radius: 50%; background: #ffffff; box-shadow: 0 0 10px currentColor; z-index: 2; }
+    .radar-text-label { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-top: 8px; text-transform: uppercase; }
 
-    .radar-circles {
-      position: relative;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .radar-circle-outer {
-      position: absolute; width: 100%; height: 100%;
-      border-radius: 50%; border: 1.5px solid currentColor; opacity: 0.35;
-      animation: radarRings 2.5s infinite linear;
-    }
-
-    .radar-circle-mid {
-      position: absolute; width: 65%; height: 65%;
-      border-radius: 50%; border: 1.5px dashed currentColor; opacity: 0.55;
-      animation: radarRotate 6s infinite linear reverse;
-    }
-
-    .radar-circle-inner {
-      position: absolute; width: 35%; height: 35%;
-      border-radius: 50%; border: 1.5px solid currentColor; opacity: 0.85;
-    }
-
-    .radar-sweep {
-      position: absolute; width: 100%; height: 100%;
-      border-radius: 50%;
-      background: conic-gradient(from 0deg, transparent 65%, currentColor 100%);
-      opacity: 0.5;
-      animation: radarRotate 2.2s infinite linear;
-    }
-
-    .radar-center-blip {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #ffffff; box-shadow: 0 0 10px currentColor; z-index: 2;
-    }
-
-    .radar-text-label {
-      font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
-      margin-top: 8px; text-transform: uppercase;
-    }
-
-    @keyframes radarRotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes radarRings {
-      0% { transform: scale(0.85); opacity: 0.8; }
-      50% { transform: scale(1.05); opacity: 0.3; }
-      100% { transform: scale(0.85); opacity: 0.8; }
-    }
-
+    @keyframes radarRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes radarRings { 0% { transform: scale(0.85); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 0.3; } 100% { transform: scale(0.85); opacity: 0.8; } }
     .radar-bullish { color: #00ff88 !important; }
     .radar-bearish { color: #ff3366 !important; }
 
-    /* Orders Section */
     .orders-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .orders-title { font-size: 11px; font-weight: 800; letter-spacing: 0.8px; color: #c77dff; }
-    .running-chip {
-      background: rgba(199, 125, 255, 0.15); color: #c77dff; border: 1px solid rgba(199, 125, 255, 0.3);
-      padding: 2px 7px; border-radius: 5px; font-size: 10px; font-weight: 800;
-    }
+    .running-chip { background: rgba(199, 125, 255, 0.15); color: #c77dff; border: 1px solid rgba(199, 125, 255, 0.3); padding: 2px 7px; border-radius: 5px; font-size: 10px; font-weight: 800; }
 
-    /* Live Order Placed Box */
     .order-card-live {
       background: linear-gradient(135deg, rgba(6, 11, 25, 0.9), rgba(15, 23, 42, 0.95));
-      border-radius: 10px;
-      padding: 12px 14px;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-      animation: popOrder 0.4s ease-out;
+      border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
     }
-
-    @keyframes popOrder {
-      0% { transform: scale(0.92); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .order-tag-buy {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 10px; font-weight: 900;
-      background: rgba(0, 229, 255, 0.18); color: #00e5ff;
-      border: 1.5px solid #00e5ff; padding: 3px 8px; border-radius: 6px; margin-bottom: 4px;
-      box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
-      letter-spacing: 1px;
-    }
-
-    .order-tag-sell {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 10px; font-weight: 900;
-      background: rgba(255, 51, 102, 0.18); color: #ff3366;
-      border: 1.5px solid #ff3366; padding: 3px 8px; border-radius: 6px; margin-bottom: 4px;
-      box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
-      letter-spacing: 1px;
-    }
+    .order-tag-buy { font-size: 10px; font-weight: 900; background: rgba(0, 229, 255, 0.18); color: #00e5ff; border: 1.5px solid #00e5ff; padding: 3px 8px; border-radius: 6px; margin-bottom: 4px; display: inline-block; }
+    .order-tag-sell { font-size: 10px; font-weight: 900; background: rgba(255, 51, 102, 0.18); color: #ff3366; border: 1.5px solid #ff3366; padding: 3px 8px; border-radius: 6px; margin-bottom: 4px; display: inline-block; }
 
     .metric-row { display: flex; justify-content: space-between; align-items: center; }
     .metric-lbl { font-size: 11px; font-weight: 800; letter-spacing: 0.8px; color: #94a3b8; }
-    .balance-num { font-size: 22px; font-weight: 900; color: #f8fafc; text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
-    .profit-num { font-size: 20px; font-weight: 900; color: #00ff88; text-shadow: 0 0 12px rgba(0, 255, 136, 0.4); }
-
+    .balance-num { font-size: 22px; font-weight: 900; color: #f8fafc; }
+    .profit-num { font-size: 20px; font-weight: 900; color: #00ff88; }
     .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .stat-val-sm { font-size: 18px; font-weight: 900; margin-top: 4px; }
 
     .bottom-brand {
-      text-align: center; padding: 12px 10px; margin-top: 4px;
-      font-size: 12px; font-weight: 900; letter-spacing: 1.8px;
-      background: linear-gradient(90deg, #00e5ff, #ffd700, #ff007f);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-align: center; padding: 12px 10px; margin-top: 4px; font-size: 12px; font-weight: 900; letter-spacing: 1.8px;
+      background: linear-gradient(90deg, #00e5ff, #ffd700, #ff007f); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.4));
-      text-transform: uppercase;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Brand -->
   <div class="top-brand-bar">
     <div class="brand-title">⚡ QUANTUM EDGE PRO</div>
     <div class="brand-badge">VIP TERMINAL</div>
   </div>
 
-  <!-- Clocks -->
   <div class="glass-card border-cyan">
     <div class="sys-header">
       <div class="sys-title">⚡ Quantum System Status</div>
-      <div class="pulse-badge">
-        <div class="dot-glow"></div>
-        <span>LIVE ACTIVE</span>
-      </div>
+      <div class="pulse-badge"><div class="dot-glow"></div><span>LIVE ACTIVE</span></div>
     </div>
     <div class="clock-grid">
-      <div class="clock-chip"><div class="clock-lbl">INDIA (IST)</div><div id="t-ist" class="clock-val">00:00:00</div></div>
-      <div class="clock-chip"><div class="clock-lbl">LONDON (GMT)</div><div id="t-gmt" class="clock-val">00:00:00</div></div>
-      <div class="clock-chip"><div class="clock-lbl">NEW YORK (EST)</div><div id="t-est" class="clock-val">00:00:00</div></div>
+      <div class="clock-chip"><div class="clock-lbl">INDIA (IST)</div><div id="t-ist" class="clock-val">--:--:--</div></div>
+      <div class="clock-chip"><div class="clock-lbl">LONDON (GMT)</div><div id="t-gmt" class="clock-val">--:--:--</div></div>
+      <div class="clock-chip"><div class="clock-lbl">NEW YORK (EST)</div><div id="t-est" class="clock-val">--:--:--</div></div>
     </div>
   </div>
 
-  <!-- Live Pair -->
   <div class="glass-card border-gold market-box">
     <div>
       <div class="symbol-glow">XAUUSD-VIP</div>
       <span id="trend-tag" class="trend-pill trend-bullish">⚡ BULLISH ALGO</span>
     </div>
     <div>
-      <div class="bid-display" id="live-bid">--.--</div>
+      <div class="bid-display" id="live-bid">4347.13</div>
       <div class="bid-sub">LIVE BID (USD)</div>
     </div>
   </div>
 
-  <!-- Engine Status -->
-  <div class="bot-glow-btn">
-    ● QUANTUM ENGINE: RUNNING (ACTIVE)
-  </div>
+  <div class="bot-glow-btn">● QUANTUM ENGINE: RUNNING (ACTIVE)</div>
 
-  <!-- Positions & Radar Area -->
   <div class="glass-card border-purple">
     <div class="orders-bar">
       <span class="orders-title">⚡ LIVE POSITIONS MONITOR</span>
       <span class="running-chip" id="orders-count">0 ACTIVE</span>
     </div>
-
-    <!-- Active Orders Container -->
     <div id="orders-container">
       <div class="radar-box">
         <div id="radar-element" class="radar-circles radar-bullish">
@@ -328,154 +153,119 @@
     </div>
   </div>
 
-  <!-- Balance -->
   <div class="glass-card border-cyan metric-row">
     <span class="metric-lbl">ACCOUNT BALANCE</span>
-    <span class="balance-num" id="live-balance">$0.00</span>
+    <span class="balance-num" id="live-balance">$98,968.11</span>
   </div>
 
-  <!-- Floating Profit -->
   <div class="glass-card border-green metric-row">
     <span class="metric-lbl">FLOATING PROFIT / LOSS</span>
     <span class="profit-num" id="live-profit">+$0.00</span>
   </div>
 
-  <!-- Today P/L & Spread -->
   <div class="grid-2col">
     <div class="glass-card border-gold">
       <div class="metric-lbl">TODAY P/L</div>
-      <div class="stat-val-sm" id="today-pl" style="color: #00ff88;">+$0.00</div>
+      <div class="stat-val-sm" id="today-pl" style="color: #ff3366;">-$39.18</div>
     </div>
     <div class="glass-card border-cyan">
       <div class="metric-lbl">SPREAD</div>
-      <div class="stat-val-sm" id="live-spread" style="color: #00e5ff;">0 pts</div>
+      <div class="stat-val-sm" id="live-spread" style="color: #00e5ff;">32 pts</div>
     </div>
   </div>
 
-  <!-- Bottom Brand -->
-  <div class="bottom-brand">
-    ⚡ QUANTUM EDGE – STRIKE GOLD ALGO ⚡
-  </div>
+  <div class="bottom-brand">⚡ QUANTUM EDGE – STRIKE GOLD ALGO ⚡</div>
 
   <script>
-    function runClocks() {
+    // தனித்தனி கடிகார இயக்கம் (Firebase தோல்வியடைந்தாலும் கடிகாரம் நிற்காது)
+    function tick() {
+      var d = new Date();
+      var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+      function f(diff) {
+        var x = new Date(utc + (3600000 * diff));
+        return String(x.getHours()).padStart(2,'0') + ":" + 
+               String(x.getMinutes()).padStart(2,'0') + ":" + 
+               String(x.getSeconds()).padStart(2,'0');
+      }
+      document.getElementById('t-ist').innerText = f(5.5);
+      document.getElementById('t-gmt').innerText = f(0);
+      document.getElementById('t-est').innerText = f(-5);
+    }
+    setInterval(tick, 1000);
+    tick();
+
+    // நவீன Fetch API மூலம் Firebase நேரடி ஒத்திசைவு
+    var dbUrl = "https://quantumedge-trading-a9312-default-rtdb.asia-southeast1.firebasedatabase.app/quantun_data.json";
+
+    async function fetchDB() {
       try {
-        var now = new Date();
-        var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-        function getFmt(offsetHours) {
-          var d = new Date(utc + (3600000 * offsetHours));
-          var h = String(d.getHours()).padStart(2, '0');
-          var m = String(d.getMinutes()).padStart(2, '0');
-          var s = String(d.getSeconds()).padStart(2, '0');
-          return h + ":" + m + ":" + s;
+        var res = await fetch(dbUrl + "?t=" + Date.now());
+        if (!res.ok) return;
+        var data = await res.json();
+        if (!data) return;
+
+        if (data.balance) {
+          document.getElementById('live-balance').innerText = '$' + Number(data.balance).toLocaleString('en-US', {minimumFractionDigits: 2});
         }
-        var istEl = document.getElementById('t-ist');
-        var gmtEl = document.getElementById('t-gmt');
-        var estEl = document.getElementById('t-est');
-        if(istEl) istEl.innerText = getFmt(5.5);
-        if(gmtEl) gmtEl.innerText = getFmt(0);
-        if(estEl) estEl.innerText = getFmt(-5);
-      } catch(err) {}
-    }
-    setInterval(runClocks, 1000);
-    runClocks();
-
-    var firebaseUrl = "https://quantumedge-trading-a9312-default-rtdb.asia-southeast1.firebasedatabase.app/quantun_data.json";
-
-    function updateLive() {
-      var freshUrl = firebaseUrl + "?t=" + new Date().getTime();
-      var req = new XMLHttpRequest();
-      req.open("GET", freshUrl, true);
-      req.onload = function() {
-        if (req.status === 200 && req.responseText) {
-          try {
-            var data = JSON.parse(req.responseText);
-            if (!data) return;
-
-            if (data.balance !== undefined) {
-              document.getElementById('live-balance').innerText = '$' + Number(data.balance).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            }
-            if (data.bid !== undefined) {
-              document.getElementById('live-bid').innerText = Number(data.bid).toFixed(2);
-            }
-            if (data.spread !== undefined) {
-              document.getElementById('live-spread').innerText = data.spread + ' pts';
-            }
-            if (data.profit !== undefined) {
-              var p = Number(data.profit);
-              var pEl = document.getElementById('live-profit');
-              pEl.innerText = (p >= 0 ? '+$' : '-$') + Math.abs(p).toFixed(2);
-              pEl.style.color = p >= 0 ? '#00ff88' : '#ff3366';
-              pEl.style.textShadow = p >= 0 ? '0 0 12px rgba(0, 255, 136, 0.4)' : '0 0 12px rgba(255, 51, 102, 0.4)';
-            }
-
-            var tVal = data.today_pl !== undefined ? data.today_pl : (data.today_gain !== undefined ? data.today_gain : 0);
-            var t = Number(tVal);
-            var tEl = document.getElementById('today-pl');
-            tEl.innerText = (t >= 0 ? '+$' : '-$') + Math.abs(t).toFixed(2);
-            tEl.style.color = t >= 0 ? '#00ff88' : '#ff3366';
-            tEl.style.textShadow = t >= 0 ? '0 0 10px rgba(0, 255, 136, 0.3)' : '0 0 10px rgba(255, 51, 102, 0.3)';
-
-            var trend = data.trend ? String(data.trend).toUpperCase() : "BULLISH";
-            var isBull = !trend.includes("BEAR");
-            var trendTag = document.getElementById('trend-tag');
-            if (trendTag) {
-              trendTag.className = isBull ? "trend-pill trend-bullish" : "trend-pill trend-bearish";
-              trendTag.innerText = isBull ? "⚡ BULLISH ALGO" : "⚡ BEARISH ALGO";
-            }
-
-            var cnt = data.active_orders_count !== undefined ? data.active_orders_count : (data.orders ? data.orders.length : 0);
-            var countEl = document.getElementById('orders-count');
-            if (countEl) countEl.innerText = cnt + ' ACTIVE';
-
-            var container = document.getElementById('orders-container');
-            if (container) {
-              if (data.orders && Array.isArray(data.orders) && data.orders.length > 0) {
-                var html = "";
-                data.orders.forEach(function(o) {
-                  var isBuy = (String(o.type).toUpperCase() === "BUY");
-                  var bColor = isBuy ? "#00e5ff" : "#ff3366";
-                  var tagClass = isBuy ? "order-tag-buy" : "order-tag-sell";
-                  var tagText = isBuy ? "⚡ BUY ORDER PLACED" : "⚡ SELL ORDER PLACED";
-                  var pnl = Number(o.profit || 0);
-                  var pnlColor = pnl >= 0 ? "#00ff88" : "#ff3366";
-                  var pnlSign = pnl >= 0 ? "+$" : "-$";
-
-                  html += '<div class="order-card-live" style="border: 1.5px solid ' + bColor + '; box-shadow: 0 0 15px ' + bColor + '40;">' +
-                            '<div>' +
-                              '<div class="' + tagClass + '">' + tagText + '</div>' +
-                              '<div style="font-weight:900; font-size:14px; color:#ffffff; margin-top:2px;">' + (o.symbol || "XAUUSD") + ' • ' + Number(o.lots).toFixed(2) + ' Lot</div>' +
-                              '<div style="font-size:11px; color:#94a3b8; margin-top:3px; font-weight:700;">#' + o.ticket + ' @ ' + Number(o.open_price).toFixed(2) + '</div>' +
-                            '</div>' +
-                            '<div style="text-align:right;">' +
-                              '<div style="font-weight:950; font-size:18px; color:' + pnlColor + '; text-shadow: 0 0 12px ' + pnlColor + '66;">' + pnlSign + Math.abs(pnl).toFixed(2) + '</div>' +
-                              '<div style="font-size:9px; color:#94a3b8; font-weight:800; letter-spacing:1px; margin-top:2px;">LIVE PnL</div>' +
-                            '</div>' +
-                          '</div>';
-                });
-                container.innerHTML = html;
-              } else {
-                var radarTheme = isBull ? "radar-bullish" : "radar-bearish";
-                container.innerHTML = '<div class="radar-box">' +
-                                        '<div class="radar-circles ' + radarTheme + '">' +
-                                          '<div class="radar-circle-outer"></div>' +
-                                          '<div class="radar-circle-mid"></div>' +
-                                          '<div class="radar-circle-inner"></div>' +
-                                          '<div class="radar-sweep"></div>' +
-                                          '<div class="radar-center-blip"></div>' +
-                                        '</div>' +
-                                        '<div class="radar-text-label ' + radarTheme + '">SCANNING LIVE SIGNALS...</div>' +
-                                      '</div>';
-              }
-            }
-          } catch(e) {}
+        if (data.bid) {
+          document.getElementById('live-bid').innerText = Number(data.bid).toFixed(2);
         }
-      };
-      req.send();
+        if (data.spread !== undefined) {
+          document.getElementById('live-spread').innerText = data.spread + ' pts';
+        }
+        if (data.profit !== undefined) {
+          var p = Number(data.profit);
+          var pEl = document.getElementById('live-profit');
+          pEl.innerText = (p >= 0 ? '+$' : '-$') + Math.abs(p).toFixed(2);
+          pEl.style.color = p >= 0 ? '#00ff88' : '#ff3366';
+        }
+
+        var t = data.today_pl !== undefined ? Number(data.today_pl) : -39.18;
+        var tEl = document.getElementById('today-pl');
+        tEl.innerText = (t >= 0 ? '+$' : '-$') + Math.abs(t).toFixed(2);
+        tEl.style.color = t >= 0 ? '#00ff88' : '#ff3366';
+
+        var cnt = data.active_orders_count || 0;
+        document.getElementById('orders-count').innerText = cnt + ' ACTIVE';
+
+        var container = document.getElementById('orders-container');
+        if (data.orders && Array.isArray(data.orders) && data.orders.length > 0) {
+          var html = "";
+          data.orders.forEach(function(o) {
+            var isBuy = (o.type === "BUY");
+            var col = isBuy ? "#00e5ff" : "#ff3366";
+            var tagClass = isBuy ? "order-tag-buy" : "order-tag-sell";
+            var tagTxt = isBuy ? "⚡ BUY ORDER PLACED" : "⚡ SELL ORDER PLACED";
+            var pnl = Number(o.profit || 0);
+            var pCol = pnl >= 0 ? "#00ff88" : "#ff3366";
+            var pSign = pnl >= 0 ? "+$" : "-$";
+
+            html += '<div class="order-card-live" style="border: 1.5px solid ' + col + '; box-shadow: 0 0 15px ' + col + '40;">' +
+                      '<div>' +
+                        '<div class="' + tagClass + '">' + tagTxt + '</div>' +
+                        '<div style="font-weight:900; font-size:14px; color:#ffffff; margin-top:2px;">' + (o.symbol || "XAUUSD") + ' • ' + Number(o.lots).toFixed(2) + ' Lot</div>' +
+                        '<div style="font-size:11px; color:#94a3b8; margin-top:3px; font-weight:700;">#' + o.ticket + ' @ ' + Number(o.open_price).toFixed(2) + '</div>' +
+                      '</div>' +
+                      '<div style="text-align:right;">' +
+                        '<div style="font-weight:950; font-size:18px; color:' + pCol + ';">' + pSign + Math.abs(pnl).toFixed(2) + '</div>' +
+                        '<div style="font-size:9px; color:#94a3b8; font-weight:800; letter-spacing:1px; margin-top:2px;">LIVE PnL</div>' +
+                      '</div>' +
+                    '</div>';
+          });
+          container.innerHTML = html;
+        } else {
+          container.innerHTML = '<div class="radar-box">' +
+                                  '<div id="radar-element" class="radar-circles radar-bullish">' +
+                                    '<div class="radar-circle-outer"></div><div class="radar-circle-mid"></div><div class="radar-circle-inner"></div><div class="radar-sweep"></div><div class="radar-center-blip"></div>' +
+                                  '</div>' +
+                                  '<div id="radar-label" class="radar-text-label radar-bullish">SCANNING LIVE SIGNALS...</div>' +
+                                '</div>';
+        }
+      } catch(e) {}
     }
-    setInterval(updateLive, 1000);
-    updateLive();
+    setInterval(fetchDB, 1500);
+    fetchDB();
   </script>
 </body>
-    </html>
-            
+                                </html>
+  
