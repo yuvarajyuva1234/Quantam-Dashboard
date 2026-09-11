@@ -24,17 +24,6 @@
     .clock-lbl { font-size: 8px; color: #70829c; font-weight: bold; margin-bottom: 2px; }
     .clock-val { font-size: 11px; font-weight: bold; color: #fff; }
 
-    /* Pure CSS Candle Stream */
-    .chart-container {
-      width: 100%; height: 95px; display: flex; align-items: flex-end; justify-content: space-between;
-      padding: 8px 6px; background: #000000; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.2);
-    }
-    .candle { width: 10px; display: flex; flex-direction: column; align-items: center; }
-    .wick { width: 2px; }
-    .body { width: 100%; border-radius: 1px; }
-    .candle.green .body, .candle.green .wick { background: #00ff88; }
-    .candle.red .body, .candle.red .wick { background: #ff3366; }
-
     .market-box { display: flex; justify-content: space-between; align-items: center; }
     .symbol-title { font-size: 18px; font-weight: bold; }
     .trend-tag { display: inline-block; margin-top: 3px; padding: 2px 7px; font-size: 9px; font-weight: bold; border-radius: 4px; background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid #00ff88; }
@@ -74,21 +63,14 @@
     </div>
   </div>
 
-  <!-- Candlesticks Stream -->
-  <div class="hud-card">
-    <div style="font-size: 10px; color: #00e5ff; font-weight: bold; margin-bottom: 6px;">M5 CANDLESTICK STREAM</div>
-    <div class="chart-container">
-      <div class="candle green"><div class="wick" style="height:10px;"></div><div class="body" style="height:35px;"></div><div class="wick" style="height:6px;"></div></div>
-      <div class="candle red"><div class="wick" style="height:5px;"></div><div class="body" style="height:20px;"></div><div class="wick" style="height:10px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:8px;"></div><div class="body" style="height:42px;"></div><div class="wick" style="height:5px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:12px;"></div><div class="body" style="height:28px;"></div><div class="wick" style="height:8px;"></div></div>
-      <div class="candle red"><div class="wick" style="height:6px;"></div><div class="body" style="height:25px;"></div><div class="wick" style="height:12px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:14px;"></div><div class="body" style="height:50px;"></div><div class="wick" style="height:4px;"></div></div>
-      <div class="candle red"><div class="wick" style="height:8px;"></div><div class="body" style="height:16px;"></div><div class="wick" style="height:9px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:6px;"></div><div class="body" style="height:38px;"></div><div class="wick" style="height:5px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:10px;"></div><div class="body" style="height:55px;"></div><div class="wick" style="height:6px;"></div></div>
-      <div class="candle red"><div class="wick" style="height:12px;"></div><div class="body" style="height:24px;"></div><div class="wick" style="height:10px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:8px;"></div><div class="body" style="height:46px;"></div><div class="wick" style="height:8px;"></div></div>
+  <!-- Real-Time M5 Candlestick Stream (Zero-Crash Iframe) -->
+  <div class="hud-card" style="padding: 8px;">
+    <div style="font-size: 10px; color: #00e5ff; font-weight: bold; margin-bottom: 6px; padding-left: 4px;">M5 CANDLESTICK LIVE STREAM</div>
+    <div style="width: 100%; height: 200px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(0, 229, 255, 0.2); background: #000;">
+      <iframe 
+        src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=OANDA%3AXAUUSD&interval=5&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=050b14&studies=%5B%5D&theme=dark&style=1&timezone=Asia%2FKolkata&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en" 
+        style="width: 100%; height: 100%; border: none;">
+      </iframe>
     </div>
   </div>
 
@@ -99,7 +81,7 @@
       <span class="trend-tag">BULLISH TREND</span>
     </div>
     <div>
-      <div class="bid-num" id="live-bid">4345.26</div>
+      <div class="bid-num" id="live-bid">4349.37</div>
       <div class="bid-lbl">LIVE BID</div>
     </div>
   </div>
@@ -191,4 +173,5 @@
     updateLive();
   </script>
 </body>
-  </html>
+      </html>
+    
