@@ -3,461 +3,205 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QE BOT Dashboard</title>
+  <title>QE BOT</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
-    body {
-      background-color: #050b14;
-      color: #ffffff;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    /* Robot Banner Box */
-    .banner-container {
-      width: 100%;
-      height: 160px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1.5px solid #00e5ff;
-      box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
-      background: radial-gradient(circle at center, #0a1b33 0%, #050b14 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .banner-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* HUD Card */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+    body { background-color: #050b14; color: #ffffff; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    
     .hud-card {
-      background: rgba(10, 20, 38, 0.9);
+      background: rgba(10, 20, 38, 0.95);
       border: 1.5px solid #00e5ff;
       border-radius: 12px;
       padding: 12px 14px;
-      position: relative;
-      box-shadow: 0 0 12px rgba(0, 229, 255, 0.15);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
     }
+    
+    .sys-header { display: flex; justify-content: space-between; align-items: center; }
+    .sys-title { font-weight: bold; font-size: 13px; color: #00e5ff; letter-spacing: 1px; }
+    .status-badge { font-size: 11px; font-weight: bold; color: #00ff88; }
 
-    .sys-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .clock-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center; margin-top: 10px; }
+    .clock-item { background: rgba(0, 0, 0, 0.5); padding: 6px 2px; border-radius: 6px; border: 1px solid rgba(0, 229, 255, 0.2); }
+    .clock-lbl { font-size: 8px; color: #70829c; font-weight: bold; margin-bottom: 2px; }
+    .clock-val { font-size: 11px; font-weight: bold; color: #fff; }
 
-    .sys-title {
-      font-weight: 800;
-      font-size: 13px;
-      color: #00e5ff;
-      letter-spacing: 1px;
-    }
-
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: bold;
-      color: #00ff88;
-    }
-
-    .dot-pulse {
-      width: 7px;
-      height: 7px;
-      background: #00ff88;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #00ff88;
-      animation: blink 1s infinite alternate;
-    }
-
-    @keyframes blink {
-      0% { opacity: 0.3; }
-      100% { opacity: 1; }
-    }
-
-    /* World Clocks */
-    .clock-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .clock-item {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 6px 2px;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 229, 255, 0.2);
-    }
-
-    .clock-lbl {
-      font-size: 8px;
-      color: #70829c;
-      font-weight: bold;
-      margin-bottom: 2px;
-    }
-
-    .clock-val {
-      font-size: 11px;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    /* Candlestick Chart Simulation */
-    .chart-container {
+    /* Live TradingView Container */
+    .tv-chart-wrapper {
       width: 100%;
-      height: 115px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      padding: 10px 8px 4px 8px;
-      background: rgba(0, 0, 0, 0.45);
+      height: 220px;
       border-radius: 8px;
-      border: 1px solid rgba(0, 229, 255, 0.18);
+      overflow: hidden;
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      background: #000;
     }
 
-    .candle {
-      width: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: height 0.4s ease;
-    }
+    .market-box { display: flex; justify-content: space-between; align-items: center; }
+    .symbol-title { font-size: 18px; font-weight: bold; }
+    .trend-tag { display: inline-block; margin-top: 3px; padding: 2px 7px; font-size: 9px; font-weight: bold; border-radius: 4px; background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid #00ff88; }
+    .bid-num { font-size: 22px; font-weight: bold; color: #00e5ff; text-shadow: 0 0 8px rgba(0, 229, 255, 0.4); }
+    .bid-lbl { font-size: 9px; color: #70829c; text-align: right; }
 
-    .wick { width: 2px; }
-    .body { width: 100%; border-radius: 1px; transition: height 0.4s ease; }
-
-    .candle.green .body { background: #00ff88; box-shadow: 0 0 6px #00ff88; }
-    .candle.green .wick { background: #00ff88; }
-    .candle.red .body { background: #ff3366; box-shadow: 0 0 6px #ff3366; }
-    .candle.red .wick { background: #ff3366; }
-
-    /* Market Pair & Bid */
-    .market-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .symbol-title { font-size: 18px; font-weight: 800; }
-
-    .trend-tag {
-      display: inline-block;
-      margin-top: 3px;
-      padding: 2px 7px;
-      font-size: 9px;
-      font-weight: bold;
-      border-radius: 4px;
-      background: rgba(0, 255, 136, 0.15);
-      color: #00ff88;
-      border: 1px solid #00ff88;
-    }
-
-    .bid-side { text-align: right; }
-
-    .bid-num {
-      font-size: 22px;
-      font-weight: 800;
-      color: #00e5ff;
-      text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
-    }
-
-    .bid-lbl {
-      font-size: 9px;
-      color: #70829c;
-      font-weight: 600;
-    }
-
-    /* Bot Button */
     .bot-btn {
-      width: 100%;
-      padding: 11px;
-      background: rgba(0, 255, 136, 0.08);
-      border: 1.5px solid #00ff88;
-      border-radius: 10px;
-      color: #00ff88;
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: 1px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
+      width: 100%; padding: 11px; background: rgba(0, 255, 136, 0.08); border: 1.5px solid #00ff88;
+      border-radius: 10px; color: #00ff88; font-weight: bold; font-size: 12px; text-align: center;
     }
 
-    /* Metrics */
-    .metric-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .metric-row { display: flex; justify-content: space-between; align-items: center; }
+    .metric-lbl { font-size: 11px; color: #70829c; font-weight: bold; }
+    .balance-txt { font-size: 21px; font-weight: bold; color: #fff; }
+    .profit-txt { font-size: 19px; font-weight: bold; color: #00ff88; }
 
-    .metric-lbl {
-      font-size: 11px;
-      color: #70829c;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-    }
-
-    .balance-txt { font-size: 21px; font-weight: 800; color: #fff; }
-    .profit-txt { font-size: 19px; font-weight: 800; color: #00ff88; }
-
-    .grid-2col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .stat-val-sm { font-size: 17px; font-weight: 800; margin-top: 4px; }
-
-    /* Orders Section */
-    .orders-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 4px 2px 2px 2px;
-    }
-
-    .orders-title {
-      color: #00e5ff;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-    }
-
-    .running-cnt { color: #70829c; font-size: 11px; font-weight: 700; }
-
-    .no-orders-box {
-      text-align: center;
-      padding: 16px;
-      color: #70829c;
-      font-size: 11px;
-      font-weight: 700;
-      border: 1px dashed rgba(0, 229, 255, 0.3);
-    }
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-val-sm { font-size: 17px; font-weight: bold; margin-top: 4px; }
+    .orders-header { display: flex; justify-content: space-between; align-items: center; margin: 4px 2px 2px 2px; }
+    .orders-title { color: #00e5ff; font-size: 11px; font-weight: bold; }
+    .running-cnt { color: #70829c; font-size: 11px; font-weight: bold; }
+    .no-orders-box { text-align: center; padding: 16px; color: #70829c; font-size: 11px; font-weight: bold; border: 1px dashed rgba(0, 229, 255, 0.3); }
   </style>
 </head>
 <body>
 
-  <!-- 1. Robot Banner -->
-  <div class="banner-container">
-    <img src="https://raw.githubusercontent.com/yuvarajyuva1234/Quantam-Dashboard/main/1000248634.png" 
-         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80';" 
-         alt="QuantumEdge Bot">
-  </div>
-
-  <!-- 2. System Status & Clocks -->
+  <!-- Clocks -->
   <div class="hud-card">
     <div class="sys-header">
       <div class="sys-title">⚡ QUANTUMEDGE NEURAL SYSTEM</div>
-      <div class="status-badge">
-        <div class="dot-pulse"></div>
-        <span>LIVE</span>
-      </div>
+      <div class="status-badge">● LIVE</div>
     </div>
-
     <div class="clock-grid">
-      <div class="clock-item">
-        <div class="clock-lbl">INDIA (IST)</div>
-        <div id="t-ist" class="clock-val">--:--:--</div>
-      </div>
-      <div class="clock-item">
-        <div class="clock-lbl">LONDON (GMT)</div>
-        <div id="t-gmt" class="clock-val">--:--:--</div>
-      </div>
-      <div class="clock-item">
-        <div class="clock-lbl">NEW YORK (EST)</div>
-        <div id="t-est" class="clock-val">--:--:--</div>
-      </div>
+      <div class="clock-item"><div class="clock-lbl">INDIA (IST)</div><div id="t-ist" class="clock-val">--:--:--</div></div>
+      <div class="clock-item"><div class="clock-lbl">LONDON (GMT)</div><div id="t-gmt" class="clock-val">--:--:--</div></div>
+      <div class="clock-item"><div class="clock-lbl">NEW YORK (EST)</div><div id="t-est" class="clock-val">--:--:--</div></div>
     </div>
   </div>
 
-  <!-- 3. M5 Candlestick Stream -->
+  <!-- Real-Time TradingView Live Chart (M5 XAUUSD) -->
   <div class="hud-card">
-    <div style="font-size: 10px; color: #70829c; font-weight: 700; margin-bottom: 6px;">M5 CANDLESTICK STREAM</div>
-    <div class="chart-container">
-      <div class="candle green"><div class="wick" style="height:10px;"></div><div class="body" style="height:35px;"></div><div class="wick" style="height:6px;"></div></div>
-      <div class="candle red"><div class="wick" style="height:5px;"></div><div class="body" style="height:20px;"></div><div class="wick" style="height:10px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:8px;"></div><div class="body" style="height:42px;"></div><div class="wick" style="height:5px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:12px;"></div><div class="body" style="height:28px;"></div><div class="wick" style="height:8px;"></div></div>
-      <div class="candle red"><div class="wick" style="height:6px;"></div><div class="body" style="height:25px;"></div><div class="wick" style="height:12px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:14px;"></div><div class="body" style="height:50px;"></div><div class="wick" style="height:4px;"></div></div>
-      <div class="candle red"><div class="wick" style="height:8px;"></div><div class="body" style="height:16px;"></div><div class="wick" style="height:9px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:6px;"></div><div class="body" style="height:38px;"></div><div class="wick" style="height:5px;"></div></div>
-      <div class="candle green"><div class="wick" style="height:10px;"></div><div class="body" style="height:55px;"></div><div class="wick" style="height:6px;"></div></div>
-      <div class="candle red"><div class="wick" style="height:12px;"></div><div class="body" style="height:24px;"></div><div class="wick" style="height:10px;"></div></div>
-      <div class="candle green" id="live-candle">
-        <div class="wick" style="height:8px;"></div>
-        <div class="body" id="live-body" style="height:48px;"></div>
-        <div class="wick" style="height:8px;"></div>
+    <div style="font-size: 10px; color: #00e5ff; font-weight: bold; margin-bottom: 8px;">REAL-TIME M5 CANDLESTICK STREAM</div>
+    <div class="tv-chart-wrapper">
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div id="tradingview_chart" style="height:100%;width:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        <script type="text/javascript">
+          new TradingView.widget({
+            "autosize": true,
+            "symbol": "OANDA:XAUUSD",
+            "interval": "5",
+            "timezone": "Asia/Kolkata",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#050b14",
+            "enable_publishing": false,
+            "hide_top_toolbar": true,
+            "hide_legend": true,
+            "save_image": false,
+            "container_id": "tradingview_chart"
+          });
+        </script>
       </div>
     </div>
   </div>
 
-  <!-- 4. Market Pair & Dynamic Live Bid -->
+  <!-- Market Pair & Bid -->
   <div class="hud-card market-box">
     <div>
-      <div class="symbol-title" id="market-symbol">XAUUSD-VIP</div>
-      <span id="market-trend" class="trend-tag">BULLISH TREND</span>
+      <div class="symbol-title" id="m-sym">XAUUSD-VIP</div>
+      <span class="trend-tag" id="m-trend">BULLISH TREND</span>
     </div>
-    <div class="bid-side">
-      <div id="live-bid" class="bid-num">4345.26</div>
+    <div>
+      <div class="bid-num" id="live-bid">4345.26</div>
       <div class="bid-lbl">LIVE BID</div>
     </div>
   </div>
 
-  <!-- 5. Auto Bot Button -->
-  <div class="bot-btn" id="bot-status-badge">
-    <div class="dot-pulse"></div>
-    <span id="bot-status-text">● AUTO BOT: RUNNING (ON)</span>
-  </div>
+  <!-- Bot Button -->
+  <div class="bot-btn" id="m-bot">● AUTO BOT: RUNNING (ON)</div>
 
-  <!-- 6. Balance & Profit -->
+  <!-- Balance & Profit -->
   <div class="hud-card metric-row">
     <span class="metric-lbl">LIVE BALANCE</span>
-    <span id="live-balance" class="balance-txt">$98,968.11</span>
+    <span class="balance-txt" id="live-balance">$98,968.11</span>
   </div>
 
   <div class="hud-card metric-row">
     <span class="metric-lbl">LIVE PROFIT / LOSS</span>
-    <span id="live-profit" class="profit-txt">+$0.00</span>
+    <span class="profit-txt" id="live-profit">+$0.00</span>
   </div>
 
-  <!-- 7. MT5 Stats -->
+  <!-- MT5 Stats -->
   <div class="grid-2col">
     <div class="hud-card">
       <div class="metric-lbl">TODAY P/L</div>
-      <div id="today-pl" class="stat-val-sm" style="color: #ff3366;">-$39.18</div>
+      <div class="stat-val-sm" id="today-pl" style="color: #ff3366;">-$39.18</div>
     </div>
     <div class="hud-card">
       <div class="metric-lbl">SPREAD</div>
-      <div id="live-spread" class="stat-val-sm" style="color: #00e5ff;">27 pts</div>
+      <div class="stat-val-sm" id="live-spread" style="color: #00e5ff;">27 pts</div>
     </div>
   </div>
 
-  <!-- 8. Orders -->
+  <!-- Orders -->
   <div class="orders-header">
     <span class="orders-title">ACTIVE ORDERS</span>
-    <span id="orders-count" class="running-cnt">0 RUNNING</span>
+    <span class="running-cnt" id="orders-count">0 RUNNING</span>
   </div>
 
-  <div id="orders-container" class="hud-card no-orders-box">
+  <div class="hud-card no-orders-box" id="orders-box">
     NO ACTIVE ORDERS WAITING FOR SIGNAL...
   </div>
 
   <script>
-    // 1. Live Clocks Update
-    function updateClocks() {
+    // Live Clocks
+    function runClocks() {
       var d = new Date();
       var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-      var ist = new Date(utc + (3600000 * 5.5));
-      var gmt = new Date(utc);
-      var est = new Date(utc - (3600000 * 5));
-
-      function fmt(date) {
-        var h = String(date.getHours()).padStart(2, '0');
-        var m = String(date.getMinutes()).padStart(2, '0');
-        var s = String(date.getSeconds()).padStart(2, '0');
-        return h + ":" + m + ":" + s;
+      function fmt(t) {
+        var dt = new Date(utc + t);
+        return String(dt.getHours()).padStart(2,'0') + ":" + String(dt.getMinutes()).padStart(2,'0') + ":" + String(dt.getSeconds()).padStart(2,'0');
       }
-
-      document.getElementById('t-ist').innerText = fmt(ist);
-      document.getElementById('t-gmt').innerText = fmt(gmt);
-      document.getElementById('t-est').innerText = fmt(est);
+      document.getElementById('t-ist').innerText = fmt(3600000 * 5.5);
+      document.getElementById('t-gmt').innerText = fmt(0);
+      document.getElementById('t-est').innerText = fmt(-3600000 * 5);
     }
-    setInterval(updateClocks, 1000);
-    updateClocks();
+    setInterval(runClocks, 1000);
+    runClocks();
 
-    // 2. Real-time Firebase Sync
-    const FIREBASE_ENDPOINT = "https://quantumedge-trading-a9312-default-rtdb.asia-southeast1.firebasedatabase.app/quantun_data.json";
+    // Firebase Data Sync (Polling quantun_data node)
+    var url = "https://quantumedge-trading-a9312-default-rtdb.asia-southeast1.firebasedatabase.app/quantun_data.json";
 
-    async function syncData() {
-      try {
-        const res = await fetch(FIREBASE_ENDPOINT);
-        const data = await res.json();
-        if (!data) return;
+    function sync() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.onload = function() {
+        if (xhr.status === 200 && xhr.responseText) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            if (!data) return;
 
-        // Balance
-        if (data.balance !== undefined) {
-          document.getElementById('live-balance').innerText = '$' + Number(data.balance).toLocaleString('en-US', { minimumFractionDigits: 2 });
+            if (data.balance) document.getElementById('live-balance').innerText = '$' + Number(data.balance).toLocaleString('en-US', {minimumFractionDigits: 2});
+            if (data.bid) document.getElementById('live-bid').innerText = Number(data.bid).toFixed(2);
+            if (data.spread) document.getElementById('live-spread').innerText = data.spread + ' pts';
+            
+            var p = data.profit !== undefined ? Number(data.profit) : 0;
+            var pEl = document.getElementById('live-profit');
+            pEl.innerText = (p >= 0 ? '+$' : '-$') + Math.abs(p).toFixed(2);
+            pEl.style.color = p >= 0 ? '#00ff88' : '#ff3366';
+
+            var t = data.today_gain !== undefined ? Number(data.today_gain) : (data.today_pl !== undefined ? Number(data.today_pl) : -39.18);
+            var tEl = document.getElementById('today-pl');
+            tEl.innerText = (t >= 0 ? '+$' : '-$') + Math.abs(t).toFixed(2);
+            tEl.style.color = t >= 0 ? '#00ff88' : '#ff3366';
+
+            var cnt = data.active_orders_count !== undefined ? data.active_orders_count : (data.orders_count !== undefined ? data.orders_count : 0);
+            document.getElementById('orders-count').innerText = cnt + ' RUNNING';
+          } catch(e) {}
         }
-
-        // Live Profit
-        if (data.profit !== undefined || data.live_profit !== undefined) {
-          const p = Number(data.profit !== undefined ? data.profit : data.live_profit);
-          const pEl = document.getElementById('live-profit');
-          pEl.innerText = (p >= 0 ? '+$' : '-$') + Math.abs(p).toFixed(2);
-          pEl.style.color = p >= 0 ? '#00ff88' : '#ff3366';
-        }
-
-        // Live Bid Price
-        if (data.bid !== undefined || data.live_bid !== undefined || data.price !== undefined) {
-          const bidVal = data.bid !== undefined ? data.bid : (data.live_bid !== undefined ? data.live_bid : data.price);
-          document.getElementById('live-bid').innerText = Number(bidVal).toFixed(2);
-        }
-
-        // Spread
-        if (data.spread !== undefined) {
-          document.getElementById('live-spread').innerText = data.spread + ' pts';
-        }
-
-        // Today P/L
-        if (data.today_gain !== undefined || data.today_pl !== undefined || data.today_profit !== undefined) {
-          const tpl = Number(data.today_gain !== undefined ? data.today_gain : (data.today_pl !== undefined ? data.today_pl : data.today_profit));
-          const tplEl = document.getElementById('today-pl');
-          tplEl.innerText = (tpl >= 0 ? '+$' : '-$') + Math.abs(tpl).toFixed(2);
-          tplEl.style.color = tpl >= 0 ? '#00ff88' : '#ff3366';
-        }
-
-        // Orders Count
-        if (data.active_orders_count !== undefined || data.orders_count !== undefined) {
-          const cnt = Number(data.active_orders_count !== undefined ? data.active_orders_count : data.orders_count);
-          document.getElementById('orders-count').innerText = cnt + ' RUNNING';
-          const container = document.getElementById('orders-container');
-          if (cnt === 0) {
-            container.innerText = 'NO ACTIVE ORDERS WAITING FOR SIGNAL...';
-          }
-        }
-
-        // Market Trend
-        if (data.trend) {
-          document.getElementById('market-trend').innerText = data.trend.toUpperCase() + ' TREND';
-        }
-
-        // Symbol
-        if (data.symbol) {
-          document.getElementById('market-symbol').innerText = data.symbol;
-        }
-
-        // Bot Status
-        if (data.bot_status) {
-          document.getElementById('bot-status-text').innerText = '● AUTO BOT: ' + data.bot_status;
-        }
-
-      } catch (e) {
-        // network sync handled quietly
-      }
+      };
+      xhr.send();
     }
-
-    // Poll every 1 second
-    setInterval(syncData, 1000);
-    syncData();
+    setInterval(sync, 1500);
+    sync();
   </script>
 </body>
   </html>
-                                                                               
+  
