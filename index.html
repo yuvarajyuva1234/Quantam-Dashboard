@@ -9,11 +9,10 @@
     body { background-color: #050b14; color: #ffffff; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
     
     .hud-card {
-      background: rgba(10, 20, 38, 0.95);
+      background: #0a1426;
       border: 1.5px solid #00e5ff;
       border-radius: 12px;
       padding: 12px 14px;
-      box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
     }
     
     .sys-header { display: flex; justify-content: space-between; align-items: center; }
@@ -21,28 +20,29 @@
     .status-badge { font-size: 11px; font-weight: bold; color: #00ff88; }
 
     .clock-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center; margin-top: 10px; }
-    .clock-item { background: rgba(0, 0, 0, 0.5); padding: 6px 2px; border-radius: 6px; border: 1px solid rgba(0, 229, 255, 0.2); }
+    .clock-item { background: #000000; padding: 6px 2px; border-radius: 6px; border: 1px solid rgba(0, 229, 255, 0.2); }
     .clock-lbl { font-size: 8px; color: #70829c; font-weight: bold; margin-bottom: 2px; }
     .clock-val { font-size: 11px; font-weight: bold; color: #fff; }
 
-    /* Live TradingView Container */
-    .tv-chart-wrapper {
-      width: 100%;
-      height: 220px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(0, 229, 255, 0.25);
-      background: #000;
+    /* Pure CSS Candle Stream */
+    .chart-container {
+      width: 100%; height: 95px; display: flex; align-items: flex-end; justify-content: space-between;
+      padding: 8px 6px; background: #000000; border-radius: 8px; border: 1px solid rgba(0, 229, 255, 0.2);
     }
+    .candle { width: 10px; display: flex; flex-direction: column; align-items: center; }
+    .wick { width: 2px; }
+    .body { width: 100%; border-radius: 1px; }
+    .candle.green .body, .candle.green .wick { background: #00ff88; }
+    .candle.red .body, .candle.red .wick { background: #ff3366; }
 
     .market-box { display: flex; justify-content: space-between; align-items: center; }
     .symbol-title { font-size: 18px; font-weight: bold; }
     .trend-tag { display: inline-block; margin-top: 3px; padding: 2px 7px; font-size: 9px; font-weight: bold; border-radius: 4px; background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid #00ff88; }
-    .bid-num { font-size: 22px; font-weight: bold; color: #00e5ff; text-shadow: 0 0 8px rgba(0, 229, 255, 0.4); }
+    .bid-num { font-size: 22px; font-weight: bold; color: #00e5ff; }
     .bid-lbl { font-size: 9px; color: #70829c; text-align: right; }
 
     .bot-btn {
-      width: 100%; padding: 11px; background: rgba(0, 255, 136, 0.08); border: 1.5px solid #00ff88;
+      width: 100%; padding: 11px; background: rgba(0, 255, 136, 0.1); border: 1.5px solid #00ff88;
       border-radius: 10px; color: #00ff88; font-weight: bold; font-size: 12px; text-align: center;
     }
 
@@ -74,39 +74,29 @@
     </div>
   </div>
 
-  <!-- Real-Time TradingView Live Chart (M5 XAUUSD) -->
+  <!-- Candlesticks Stream -->
   <div class="hud-card">
-    <div style="font-size: 10px; color: #00e5ff; font-weight: bold; margin-bottom: 8px;">REAL-TIME M5 CANDLESTICK STREAM</div>
-    <div class="tv-chart-wrapper">
-      <div class="tradingview-widget-container" style="height:100%;width:100%">
-        <div id="tradingview_chart" style="height:100%;width:100%"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-        <script type="text/javascript">
-          new TradingView.widget({
-            "autosize": true,
-            "symbol": "OANDA:XAUUSD",
-            "interval": "5",
-            "timezone": "Asia/Kolkata",
-            "theme": "dark",
-            "style": "1",
-            "locale": "en",
-            "toolbar_bg": "#050b14",
-            "enable_publishing": false,
-            "hide_top_toolbar": true,
-            "hide_legend": true,
-            "save_image": false,
-            "container_id": "tradingview_chart"
-          });
-        </script>
-      </div>
+    <div style="font-size: 10px; color: #00e5ff; font-weight: bold; margin-bottom: 6px;">M5 CANDLESTICK STREAM</div>
+    <div class="chart-container">
+      <div class="candle green"><div class="wick" style="height:10px;"></div><div class="body" style="height:35px;"></div><div class="wick" style="height:6px;"></div></div>
+      <div class="candle red"><div class="wick" style="height:5px;"></div><div class="body" style="height:20px;"></div><div class="wick" style="height:10px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:8px;"></div><div class="body" style="height:42px;"></div><div class="wick" style="height:5px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:12px;"></div><div class="body" style="height:28px;"></div><div class="wick" style="height:8px;"></div></div>
+      <div class="candle red"><div class="wick" style="height:6px;"></div><div class="body" style="height:25px;"></div><div class="wick" style="height:12px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:14px;"></div><div class="body" style="height:50px;"></div><div class="wick" style="height:4px;"></div></div>
+      <div class="candle red"><div class="wick" style="height:8px;"></div><div class="body" style="height:16px;"></div><div class="wick" style="height:9px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:6px;"></div><div class="body" style="height:38px;"></div><div class="wick" style="height:5px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:10px;"></div><div class="body" style="height:55px;"></div><div class="wick" style="height:6px;"></div></div>
+      <div class="candle red"><div class="wick" style="height:12px;"></div><div class="body" style="height:24px;"></div><div class="wick" style="height:10px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:8px;"></div><div class="body" style="height:46px;"></div><div class="wick" style="height:8px;"></div></div>
     </div>
   </div>
 
   <!-- Market Pair & Bid -->
   <div class="hud-card market-box">
     <div>
-      <div class="symbol-title" id="m-sym">XAUUSD-VIP</div>
-      <span class="trend-tag" id="m-trend">BULLISH TREND</span>
+      <div class="symbol-title">XAUUSD-VIP</div>
+      <span class="trend-tag">BULLISH TREND</span>
     </div>
     <div>
       <div class="bid-num" id="live-bid">4345.26</div>
@@ -115,7 +105,7 @@
   </div>
 
   <!-- Bot Button -->
-  <div class="bot-btn" id="m-bot">● AUTO BOT: RUNNING (ON)</div>
+  <div class="bot-btn">● AUTO BOT: RUNNING (ON)</div>
 
   <!-- Balance & Profit -->
   <div class="hud-card metric-row">
@@ -128,7 +118,7 @@
     <span class="profit-txt" id="live-profit">+$0.00</span>
   </div>
 
-  <!-- MT5 Stats -->
+  <!-- Stats -->
   <div class="grid-2col">
     <div class="hud-card">
       <div class="metric-lbl">TODAY P/L</div>
@@ -146,12 +136,11 @@
     <span class="running-cnt" id="orders-count">0 RUNNING</span>
   </div>
 
-  <div class="hud-card no-orders-box" id="orders-box">
+  <div class="hud-card no-orders-box">
     NO ACTIVE ORDERS WAITING FOR SIGNAL...
   </div>
 
   <script>
-    // Live Clocks
     function runClocks() {
       var d = new Date();
       var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
@@ -166,16 +155,15 @@
     setInterval(runClocks, 1000);
     runClocks();
 
-    // Firebase Data Sync (Polling quantun_data node)
-    var url = "https://quantumedge-trading-a9312-default-rtdb.asia-southeast1.firebasedatabase.app/quantun_data.json";
+    var dbUrl = "https://quantumedge-trading-a9312-default-rtdb.asia-southeast1.firebasedatabase.app/quantun_data.json";
 
-    function sync() {
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
-      xhr.onload = function() {
-        if (xhr.status === 200 && xhr.responseText) {
+    function updateLive() {
+      var req = new XMLHttpRequest();
+      req.open("GET", dbUrl, true);
+      req.onload = function() {
+        if (req.status === 200 && req.responseText) {
           try {
-            var data = JSON.parse(xhr.responseText);
+            var data = JSON.parse(req.responseText);
             if (!data) return;
 
             if (data.balance) document.getElementById('live-balance').innerText = '$' + Number(data.balance).toLocaleString('en-US', {minimumFractionDigits: 2});
@@ -197,11 +185,10 @@
           } catch(e) {}
         }
       };
-      xhr.send();
+      req.send();
     }
-    setInterval(sync, 1500);
-    sync();
+    setInterval(updateLive, 1500);
+    updateLive();
   </script>
 </body>
   </html>
-  
