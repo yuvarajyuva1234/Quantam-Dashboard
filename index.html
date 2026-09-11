@@ -62,6 +62,30 @@
       box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
     }
 
+    /* SQUARE OFF BUTTON STYLING */
+    .square-off-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(90deg, rgba(255, 51, 102, 0.25), rgba(255, 0, 55, 0.4));
+      border: 1.5px solid #ff3366;
+      border-radius: 10px;
+      color: #ffffff;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: 1.8px;
+      text-align: center;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 0 18px rgba(255, 51, 102, 0.35);
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .square-off-btn:active {
+      transform: scale(0.97);
+      background: linear-gradient(90deg, rgba(255, 0, 55, 0.6), rgba(255, 51, 102, 0.6));
+      box-shadow: 0 0 25px rgba(255, 51, 102, 0.7);
+    }
+
     /* Radar Area */
     .radar-box { width: 100%; height: 125px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
     .radar-circles { position: relative; width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
@@ -127,12 +151,17 @@
       <span id="trend-tag" class="trend-pill trend-bullish">⚡ BULLISH ALGO</span>
     </div>
     <div>
-      <div class="bid-display" id="live-bid">4347.13</div>
+      <div class="bid-display" id="live-bid">--.--</div>
       <div class="bid-sub">LIVE BID (USD)</div>
     </div>
   </div>
 
   <div class="bot-glow-btn">● QUANTUM ENGINE: RUNNING (ACTIVE)</div>
+
+  <!-- SQUARE OFF BUTTON WIDGET -->
+  <button class="square-off-btn" id="btn-square-off" onclick="triggerSquareOff()">
+    ⚠️ SQUARE OFF ALL POSITIONS
+  </button>
 
   <div class="glass-card border-purple">
     <div class="orders-bar">
@@ -142,11 +171,7 @@
     <div id="orders-container">
       <div class="radar-box">
         <div id="radar-element" class="radar-circles radar-bullish">
-          <div class="radar-circle-outer"></div>
-          <div class="radar-circle-mid"></div>
-          <div class="radar-circle-inner"></div>
-          <div class="radar-sweep"></div>
-          <div class="radar-center-blip"></div>
+          <div class="radar-circle-outer"></div><div class="radar-circle-mid"></div><div class="radar-circle-inner"></div><div class="radar-sweep"></div><div class="radar-center-blip"></div>
         </div>
         <div id="radar-label" class="radar-text-label radar-bullish">SCANNING LIVE SIGNALS...</div>
       </div>
@@ -155,7 +180,7 @@
 
   <div class="glass-card border-cyan metric-row">
     <span class="metric-lbl">ACCOUNT BALANCE</span>
-    <span class="balance-num" id="live-balance">$98,968.11</span>
+    <span class="balance-num" id="live-balance">$0.00</span>
   </div>
 
   <div class="glass-card border-green metric-row">
@@ -166,18 +191,17 @@
   <div class="grid-2col">
     <div class="glass-card border-gold">
       <div class="metric-lbl">TODAY P/L</div>
-      <div class="stat-val-sm" id="today-pl" style="color: #ff3366;">-$39.18</div>
+      <div class="stat-val-sm" id="today-pl" style="color: #ff3366;">-$0.00</div>
     </div>
     <div class="glass-card border-cyan">
       <div class="metric-lbl">SPREAD</div>
-      <div class="stat-val-sm" id="live-spread" style="color: #00e5ff;">32 pts</div>
+      <div class="stat-val-sm" id="live-spread" style="color: #00e5ff;">0 pts</div>
     </div>
   </div>
 
   <div class="bottom-brand">⚡ QUANTUM EDGE – STRIKE GOLD ALGO ⚡</div>
 
   <script>
-    // தனித்தனி கடிகார இயக்கம் (Firebase தோல்வியடைந்தாலும் கடிகாரம் நிற்காது)
     function tick() {
       var d = new Date();
       var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
@@ -194,8 +218,30 @@
     setInterval(tick, 1000);
     tick();
 
-    // நவீன Fetch API மூலம் Firebase நேரடி ஒத்திசைவு
     var dbUrl = "https://quantumedge-trading-a9312-default-rtdb.asia-southeast1.firebasedatabase.app/quantun_data.json";
+
+    // SQUARE OFF தூண்டுதல் ஃபங்ஷன்
+    async function triggerSquareOff() {
+      var btn = document.getElementById('btn-square-off');
+      if(!confirm("Are you sure you want to SQUARE OFF all active trades?")) return;
+      
+      btn.innerText = "⏳ CLOSING ALL TRADES...";
+      btn.style.opacity = "0.7";
+      try {
+        await fetch(dbUrl, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ close_all: true })
+        });
+        setTimeout(function() {
+          btn.innerText = "⚠️ SQUARE OFF ALL POSITIONS";
+          btn.style.opacity = "1";
+        }, 3000);
+      } catch(e) {
+        btn.innerText = "⚠️ SQUARE OFF ALL POSITIONS";
+        btn.style.opacity = "1";
+      }
+    }
 
     async function fetchDB() {
       try {
@@ -220,7 +266,7 @@
           pEl.style.color = p >= 0 ? '#00ff88' : '#ff3366';
         }
 
-        var t = data.today_pl !== undefined ? Number(data.today_pl) : -39.18;
+        var t = data.today_pl !== undefined ? Number(data.today_pl) : 0;
         var tEl = document.getElementById('today-pl');
         tEl.innerText = (t >= 0 ? '+$' : '-$') + Math.abs(t).toFixed(2);
         tEl.style.color = t >= 0 ? '#00ff88' : '#ff3366';
@@ -267,5 +313,5 @@
     fetchDB();
   </script>
 </body>
-                                </html>
-  
+  </html>
+      
