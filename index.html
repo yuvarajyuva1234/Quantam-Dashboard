@@ -5,24 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QE BOT Dashboard</title>
   <style>
-    :root {
-      --bg: #050b14;
-      --card-bg: rgba(10, 20, 38, 0.85);
-      --border-cyan: #00e5ff;
-      --neon-green: #00ff88;
-      --neon-red: #ff3366;
-      --text-dim: #70829c;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: sans-serif;
     }
 
     body {
-      background-color: var(--bg);
+      background-color: #050b14;
       color: #ffffff;
       padding: 12px;
       display: flex;
@@ -33,40 +24,32 @@
     /* Robot Banner Box */
     .banner-container {
       width: 100%;
+      height: 160px;
       border-radius: 12px;
       overflow: hidden;
-      border: 1.5px solid rgba(0, 229, 255, 0.4);
+      border: 1.5px solid #00e5ff;
       box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+      background: #0d1b2a;
     }
 
     .banner-container img {
       width: 100%;
-      height: 170px;
+      height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    /* HUD Glow Card */
+    /* HUD Card Frame */
     .hud-card {
-      background: var(--card-bg);
-      border: 1.5px solid var(--border-cyan);
+      background: rgba(10, 20, 38, 0.9);
+      border: 1.5px solid #00e5ff;
       border-radius: 12px;
       padding: 12px 14px;
       position: relative;
-      box-shadow: 0 0 12px rgba(0, 229, 255, 0.15), inset 0 0 8px rgba(0, 229, 255, 0.08);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
     }
 
-    .hud-card::before {
-      content: '';
-      position: absolute;
-      top: -1.5px;
-      left: 15%;
-      width: 70%;
-      height: 1.5px;
-      background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
-    }
-
-    /* System Status Row */
+    /* Clocks */
     .sys-header {
       display: flex;
       justify-content: space-between;
@@ -74,32 +57,18 @@
     }
 
     .sys-title {
-      font-weight: 800;
+      font-weight: bold;
       font-size: 13px;
+      color: #00e5ff;
       letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
       font-size: 11px;
       font-weight: bold;
-      color: var(--neon-green);
+      color: #00ff88;
     }
 
-    .dot-pulse {
-      width: 7px;
-      height: 7px;
-      background: var(--neon-green);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--neon-green);
-    }
-
-    /* Clocks Grid */
     .clock-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -109,39 +78,40 @@
     }
 
     .clock-item {
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.5);
       padding: 6px 2px;
       border-radius: 6px;
-      border: 1px solid rgba(0, 229, 255, 0.18);
+      border: 1px solid rgba(0, 229, 255, 0.2);
     }
 
     .clock-lbl {
-      font-size: 8.5px;
-      color: var(--text-dim);
-      font-weight: 700;
+      font-size: 8px;
+      color: #70829c;
+      font-weight: bold;
       margin-bottom: 2px;
     }
 
     .clock-val {
       font-size: 11px;
       font-weight: bold;
+      color: #fff;
     }
 
-    /* Pure CSS/SVG Candlestick Live Chart */
+    /* Pure CSS Candlestick Chart */
     .chart-container {
       width: 100%;
-      height: 130px;
+      height: 110px;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      padding: 10px 4px 4px 4px;
-      background: rgba(0, 5, 15, 0.6);
+      padding: 10px 8px 4px 8px;
+      background: rgba(0, 0, 0, 0.4);
       border-radius: 8px;
-      border: 1px solid rgba(0, 229, 255, 0.2);
+      border: 1px solid rgba(0, 229, 255, 0.15);
     }
 
     .candle {
-      width: 14px;
+      width: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -150,19 +120,17 @@
 
     .wick {
       width: 2px;
-      background: #fff;
-      opacity: 0.6;
     }
 
     .body {
       width: 100%;
-      border-radius: 2px;
+      border-radius: 1px;
     }
 
-    .candle.green .body { background: var(--neon-green); box-shadow: 0 0 6px var(--neon-green); }
-    .candle.green .wick { background: var(--neon-green); }
-    .candle.red .body { background: var(--neon-red); box-shadow: 0 0 6px var(--neon-red); }
-    .candle.red .wick { background: var(--neon-red); }
+    .candle.green .body { background: #00ff88; box-shadow: 0 0 5px #00ff88; }
+    .candle.green .wick { background: #00ff88; }
+    .candle.red .body { background: #ff3366; box-shadow: 0 0 5px #ff3366; }
+    .candle.red .wick { background: #ff3366; }
 
     /* Market Pair & Bid */
     .market-box {
@@ -173,57 +141,50 @@
 
     .symbol-title {
       font-size: 18px;
-      font-weight: 800;
+      font-weight: bold;
     }
 
     .trend-tag {
       display: inline-block;
       margin-top: 3px;
       padding: 2px 7px;
-      font-size: 9.5px;
-      font-weight: 700;
+      font-size: 9px;
+      font-weight: bold;
       border-radius: 4px;
       background: rgba(0, 255, 136, 0.15);
-      color: var(--neon-green);
-      border: 1px solid var(--neon-green);
-    }
-
-    .bid-side {
-      text-align: right;
+      color: #00ff88;
+      border: 1px solid #00ff88;
     }
 
     .bid-num {
       font-size: 22px;
-      font-weight: 800;
-      color: var(--border-cyan);
+      font-weight: bold;
+      color: #00e5ff;
       text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
     }
 
     .bid-lbl {
       font-size: 9px;
-      color: var(--text-dim);
-      font-weight: 600;
+      color: #70829c;
+      text-align: right;
     }
 
-    /* Bot Execution Button */
+    /* Auto Bot Button */
     .bot-btn {
       width: 100%;
       padding: 11px;
       background: rgba(0, 255, 136, 0.08);
-      border: 1.5px solid var(--neon-green);
+      border: 1.5px solid #00ff88;
       border-radius: 10px;
-      color: var(--neon-green);
-      font-weight: 800;
+      color: #00ff88;
+      font-weight: bold;
       font-size: 12px;
       letter-spacing: 1px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
+      text-align: center;
       box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
     }
 
-    /* Metric Key-Value Row */
+    /* Single Live Balance */
     .metric-row {
       display: flex;
       justify-content: space-between;
@@ -232,21 +193,21 @@
 
     .metric-lbl {
       font-size: 11px;
-      color: var(--text-dim);
-      font-weight: 700;
+      color: #70829c;
+      font-weight: bold;
       letter-spacing: 0.8px;
     }
 
     .balance-txt {
       font-size: 21px;
-      font-weight: 800;
+      font-weight: bold;
       color: #fff;
     }
 
     .profit-txt {
       font-size: 19px;
-      font-weight: 800;
-      color: var(--neon-green);
+      font-weight: bold;
+      color: #00ff88;
     }
 
     /* Two Columns Row */
@@ -258,11 +219,11 @@
 
     .stat-val-sm {
       font-size: 17px;
-      font-weight: 800;
+      font-weight: bold;
       margin-top: 4px;
     }
 
-    /* Orders Section */
+    /* Orders Header */
     .orders-header {
       display: flex;
       justify-content: space-between;
@@ -271,25 +232,24 @@
     }
 
     .orders-title {
-      color: var(--border-cyan);
+      color: #00e5ff;
       font-size: 11px;
-      font-weight: 800;
+      font-weight: bold;
       letter-spacing: 0.8px;
     }
 
     .running-cnt {
-      color: var(--text-dim);
+      color: #70829c;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: bold;
     }
 
     .no-orders-box {
       text-align: center;
       padding: 16px;
-      color: var(--text-dim);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      color: #70829c;
+      font-size: 11px;
+      font-weight: bold;
       border: 1px dashed rgba(0, 229, 255, 0.3);
     }
   </style>
@@ -298,40 +258,47 @@
 
   <!-- 1. Robot Banner -->
   <div class="banner-container">
-    <img src="https://yuvarajyuva1234.github.io/Quantam-Dashboard/1000248634.png" onerror="this.src='https://yuvarajyuva1234.github.io/Quantam-Dashboard/1000248634_2.png'" alt="QuantumEdge Bot">
+    <img src="1000248634.png" alt="QuantumEdge Bot">
   </div>
 
   <!-- 2. System Clocks -->
   <div class="hud-card">
     <div class="sys-header">
-      <div class="sys-title">⚡ QUANTUMEDGE <span style="font-size: 10px; color: var(--text-dim);">NEURAL SYSTEM</span></div>
-      <div class="status-badge">
-        <div class="dot-pulse"></div>
-        <span>LIVE</span>
-      </div>
+      <div class="sys-title">⚡ QUANTUMEDGE NEURAL SYSTEM</div>
+      <div class="status-badge">● LIVE</div>
     </div>
 
     <div class="clock-grid">
       <div class="clock-item">
         <div class="clock-lbl">INDIA (IST)</div>
-        <div id="time-ist" class="clock-val">--:--:--</div>
+        <div id="time-ist" class="clock-val">11:50:10</div>
       </div>
       <div class="clock-item">
         <div class="clock-lbl">LONDON (GMT)</div>
-        <div id="time-gmt" class="clock-val">--:--:--</div>
+        <div id="time-gmt" class="clock-val">06:20:10</div>
       </div>
       <div class="clock-item">
         <div class="clock-lbl">NEW YORK (EST)</div>
-        <div id="time-est" class="clock-val">--:--:--</div>
+        <div id="time-est" class="clock-val">01:20:10</div>
       </div>
     </div>
   </div>
 
-  <!-- 3. Safe Embedded Candlestick Chart (No External Block) -->
+  <!-- 3. Local Built-in Candlestick Chart -->
   <div class="hud-card">
-    <div style="font-size: 10px; color: var(--text-dim); font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px;">M5 CANDLESTICK STREAM</div>
-    <div class="chart-container" id="candles-box">
-      <!-- Generated via JS -->
+    <div style="font-size: 10px; color: #70829c; font-weight: bold; margin-bottom: 6px;">M5 CANDLESTICK STREAM</div>
+    <div class="chart-container">
+      <div class="candle green"><div class="wick" style="height:10px;"></div><div class="body" style="height:35px;"></div><div class="wick" style="height:6px;"></div></div>
+      <div class="candle red"><div class="wick" style="height:5px;"></div><div class="body" style="height:22px;"></div><div class="wick" style="height:10px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:8px;"></div><div class="body" style="height:45px;"></div><div class="wick" style="height:5px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:12px;"></div><div class="body" style="height:30px;"></div><div class="wick" style="height:8px;"></div></div>
+      <div class="candle red"><div class="wick" style="height:6px;"></div><div class="body" style="height:28px;"></div><div class="wick" style="height:12px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:15px;"></div><div class="body" style="height:55px;"></div><div class="wick" style="height:4px;"></div></div>
+      <div class="candle red"><div class="wick" style="height:8px;"></div><div class="body" style="height:18px;"></div><div class="wick" style="height:9px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:6px;"></div><div class="body" style="height:40px;"></div><div class="wick" style="height:5px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:10px;"></div><div class="body" style="height:60px;"></div><div class="wick" style="height:6px;"></div></div>
+      <div class="candle red"><div class="wick" style="height:12px;"></div><div class="body" style="height:25px;"></div><div class="wick" style="height:10px;"></div></div>
+      <div class="candle green"><div class="wick" style="height:8px;"></div><div class="body" style="height:50px;"></div><div class="wick" style="height:8px;"></div></div>
     </div>
   </div>
 
@@ -341,7 +308,7 @@
       <div class="symbol-title">XAUUSD-VIP</div>
       <span class="trend-tag">BULLISH TREND</span>
     </div>
-    <div class="bid-side">
+    <div>
       <div class="bid-num">4367.39</div>
       <div class="bid-lbl">LIVE BID</div>
     </div>
@@ -349,8 +316,7 @@
 
   <!-- 5. Bot Button -->
   <div class="bot-btn">
-    <div class="dot-pulse"></div>
-    <span>AUTO BOT: RUNNING (ON)</span>
+    ● AUTO BOT: RUNNING (ON)
   </div>
 
   <!-- 6. Single Live Balance -->
@@ -369,7 +335,7 @@
   <div class="grid-2col">
     <div class="hud-card">
       <div class="metric-lbl">TODAY P/L</div>
-      <div class="stat-val-sm" style="color: var(--neon-red);">-$39.18</div>
+      <div class="stat-val-sm" style="color: #ff3366;">-$39.18</div>
     </div>
     <div class="hud-card">
       <div class="metric-lbl">SPREAD</div>
@@ -388,40 +354,28 @@
   </div>
 
   <script>
-    // Live Clocks
     function updateClocks() {
-      const now = new Date();
-      document.getElementById('time-ist').innerText = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
-      document.getElementById('time-gmt').innerText = now.toLocaleTimeString('en-US', { timeZone: 'GMT', hour12: false });
-      document.getElementById('time-est').innerText = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false });
+      var d = new Date();
+      var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+      
+      var ist = new Date(utc + (3600000 * 5.5));
+      var gmt = new Date(utc);
+      var est = new Date(utc - (3600000 * 5));
+
+      function fmt(date) {
+        var h = String(date.getHours()).padStart(2, '0');
+        var m = String(date.getMinutes()).padStart(2, '0');
+        var s = String(date.getSeconds()).padStart(2, '0');
+        return h + ":" + m + ":" + s;
+      }
+
+      document.getElementById('time-ist').innerText = fmt(ist);
+      document.getElementById('time-gmt').innerText = fmt(gmt);
+      document.getElementById('time-est').innerText = fmt(est);
     }
     setInterval(updateClocks, 1000);
     updateClocks();
-
-    // Render Dynamic Lightweight Candles
-    const candlesData = [
-      { green: true, body: 40, wickTop: 12, wickBottom: 8 },
-      { green: false, body: 25, wickTop: 6, wickBottom: 15 },
-      { green: true, body: 55, wickTop: 10, wickBottom: 5 },
-      { green: true, body: 30, wickTop: 18, wickBottom: 10 },
-      { green: false, body: 35, wickTop: 8, wickBottom: 12 },
-      { green: true, body: 65, wickTop: 15, wickBottom: 4 },
-      { green: false, body: 20, wickTop: 10, wickBottom: 10 },
-      { green: true, body: 48, wickTop: 8, wickBottom: 6 },
-      { green: true, body: 70, wickTop: 12, wickBottom: 8 },
-      { green: false, body: 30, wickTop: 14, wickBottom: 12 },
-      { green: true, body: 60, wickTop: 10, wickBottom: 10 }
-    ];
-
-    const box = document.getElementById('candles-box');
-    box.innerHTML = candlesData.map(c => `
-      <div class="candle ${c.green ? 'green' : 'red'}">
-        <div class="wick" style="height: ${c.wickTop}px;"></div>
-        <div class="body" style="height: ${c.body}px;"></div>
-        <div class="wick" style="height: ${c.wickBottom}px;"></div>
-      </div>
-    `).join('');
   </script>
 </body>
-  </html>
-    
+                                  </html>
+                                  
