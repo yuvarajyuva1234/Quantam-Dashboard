@@ -11,7 +11,6 @@
       --border-cyan: #00e5ff;
       --neon-green: #00ff88;
       --neon-red: #ff3366;
-      --neon-amber: #ffaa00;
       --text-dim: #73829c;
     }
 
@@ -42,7 +41,7 @@
 
     .banner-container img {
       width: 100%;
-      height: 170px;
+      height: 180px;
       object-fit: cover;
       display: block;
     }
@@ -67,74 +66,12 @@
       background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
     }
 
-    /* System Status Row */
-    .sys-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .sys-title {
-      font-weight: 800;
-      font-size: 13px;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: bold;
-      color: var(--neon-green);
-    }
-
-    .dot-pulse {
-      width: 7px;
-      height: 7px;
-      background: var(--neon-green);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--neon-green);
-    }
-
-    /* Clocks Grid */
-    .clock-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .clock-item {
-      background: rgba(0, 0, 0, 0.45);
-      padding: 6px 2px;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 229, 255, 0.18);
-    }
-
-    .clock-lbl {
-      font-size: 8.5px;
-      color: var(--text-dim);
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .clock-val {
-      font-size: 11px;
-      font-weight: bold;
-    }
-
     /* Candlestick Chart Box */
     .chart-box {
-      height: 260px;
+      height: 240px;
       width: 100%;
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid rgba(0, 229, 255, 0.25);
     }
 
     /* Market Pair & Bid */
@@ -194,6 +131,14 @@
       align-items: center;
       gap: 8px;
       box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
+    }
+
+    .dot-pulse {
+      width: 7px;
+      height: 7px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--neon-green);
     }
 
     /* Metric Key-Value Row */
@@ -256,74 +201,33 @@
       font-weight: 700;
     }
 
-    .order-card {
-      border-left: 4px solid var(--neon-green);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 12px;
-    }
-
-    .order-id {
+    .no-orders-box {
+      text-align: center;
+      padding: 18px;
+      color: var(--text-dim);
       font-size: 12px;
       font-weight: 700;
-      color: #fff;
-    }
-
-    .order-meta {
-      font-size: 10px;
-      color: var(--text-dim);
-      margin-top: 2px;
-    }
-
-    .order-profit {
-      font-size: 14px;
-      font-weight: 800;
+      letter-spacing: 1px;
+      border: 1px dashed rgba(0, 229, 255, 0.3);
     }
   </style>
 </head>
 <body>
 
-  <!-- Robot Banner -->
+  <!-- 1. Robot Banner -->
   <div class="banner-container">
-    <img src="https://yuvarajyuva1234.github.io/Quantam-Dashboard/1000248634.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'" alt="QuantumEdge Bot">
+    <img src="https://yuvarajyuva1234.github.io/Quantam-Dashboard/1000248634.png" onerror="this.src='https://yuvarajyuva1234.github.io/Quantam-Dashboard/1000248634_2.png'" alt="QuantumEdge Bot">
   </div>
 
-  <!-- System Clocks -->
-  <div class="hud-card">
-    <div class="sys-header">
-      <div class="sys-title">⚡ QUANTUMEDGE <span style="font-size: 10px; color: var(--text-dim);">NEURAL SYSTEM</span></div>
-      <div class="status-badge">
-        <div class="dot-pulse"></div>
-        <span>LIVE</span>
-      </div>
-    </div>
-
-    <div class="clock-grid">
-      <div class="clock-item">
-        <div class="clock-lbl">INDIA (IST)</div>
-        <div id="time-ist" class="clock-val">--:--:--</div>
-      </div>
-      <div class="clock-item">
-        <div class="clock-lbl">LONDON (GMT)</div>
-        <div id="time-gmt" class="clock-val">--:--:--</div>
-      </div>
-      <div class="clock-item">
-        <div class="clock-lbl">NEW YORK (EST)</div>
-        <div id="time-est" class="clock-val">--:--:--</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Live Candlestick Chart (XAUUSD) -->
+  <!-- 2. Live Candlestick Chart -->
   <div class="hud-card">
     <div class="chart-box" id="tradingview_chart"></div>
   </div>
 
-  <!-- Market Bid & Trend -->
+  <!-- 3. Market Bid & Trend -->
   <div class="hud-card market-box">
     <div>
-      <div class="symbol-title">XAUUSD</div>
+      <div class="symbol-title">XAUUSD-VIP</div>
       <span class="trend-tag">BULLISH TREND</span>
     </div>
     <div class="bid-side">
@@ -332,69 +236,56 @@
     </div>
   </div>
 
-  <!-- Bot Button -->
+  <!-- 4. Bot Button -->
   <div class="bot-btn">
     <div class="dot-pulse"></div>
     <span>AUTO BOT: RUNNING (ON)</span>
   </div>
 
-  <!-- Live Balance Only -->
+  <!-- 5. Live Balance Only -->
   <div class="hud-card metric-row">
     <span class="metric-lbl">LIVE BALANCE</span>
     <span class="balance-txt">$98,968.11</span>
   </div>
 
-  <!-- Live Profit / Loss -->
+  <!-- 6. Live Profit / Loss -->
   <div class="hud-card metric-row">
     <span class="metric-lbl">LIVE PROFIT / LOSS</span>
     <span class="profit-txt">+$0.00</span>
   </div>
 
-  <!-- Today P/L & Basket Status -->
+  <!-- 7. Today P/L & Spread (From your MT5 screen) -->
   <div class="grid-2col">
     <div class="hud-card">
       <div class="metric-lbl">TODAY P/L</div>
-      <div class="stat-val-sm" style="color: var(--neon-red);">-$12.00</div>
+      <div class="stat-val-sm" style="color: var(--neon-red);">-$39.18</div>
     </div>
     <div class="hud-card">
-      <div class="metric-lbl">BASKET STATUS</div>
-      <div class="stat-val-sm">3 / 3</div>
+      <div class="metric-lbl">SPREAD</div>
+      <div class="stat-val-sm" style="color: #00e5ff;">27 pts</div>
     </div>
   </div>
 
-  <!-- Active Orders -->
+  <!-- 8. Active Orders (Zero Running) -->
   <div class="orders-header">
     <span class="orders-title">ACTIVE ORDERS</span>
-    <span class="running-cnt">2 RUNNING</span>
+    <span class="running-cnt" style="color: var(--text-dim);">0 RUNNING</span>
   </div>
 
-  <div class="hud-card order-card">
-    <div>
-      <div class="order-id">#691675201 BUY</div>
-      <div class="order-meta">Price: 4349.71 | Time: 13:20:00</div>
-    </div>
-    <div class="order-profit" style="color: var(--neon-red);">-$1.76</div>
+  <div class="hud-card no-orders-box">
+    NO ACTIVE ORDERS WAITING FOR SIGNAL...
   </div>
 
-  <div class="hud-card order-card">
-    <div>
-      <div class="order-id">#691675155 BUY</div>
-      <div class="order-meta">Price: 4349.71 | Time: 13:20:00</div>
-    </div>
-    <div class="order-profit" style="color: var(--neon-red);">-$1.76</div>
-  </div>
-
-  <!-- TradingView Library Script -->
+  <!-- TradingView Script -->
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script>
-    // Live Candlestick Chart Widget
     new TradingView.widget({
       "autosize": true,
       "symbol": "OANDA:XAUUSD",
-      "interval": "15",
+      "interval": "5",
       "timezone": "Asia/Kolkata",
       "theme": "dark",
-      "style": "1", // 1 = Candlestick
+      "style": "1",
       "locale": "en",
       "toolbar_bg": "#070d18",
       "enable_publishing": false,
@@ -403,16 +294,6 @@
       "save_image": false,
       "container_id": "tradingview_chart"
     });
-
-    // Live Clocks
-    function updateClocks() {
-      const now = new Date();
-      document.getElementById('time-ist').innerText = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
-      document.getElementById('time-gmt').innerText = now.toLocaleTimeString('en-US', { timeZone: 'GMT', hour12: false });
-      document.getElementById('time-est').innerText = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false });
-    }
-    setInterval(updateClocks, 1000);
-    updateClocks();
   </script>
 </body>
 </html>
