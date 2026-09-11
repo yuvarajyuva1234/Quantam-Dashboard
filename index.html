@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QE BOT Dashboard</title>
+  <title>QuantumEdge Pro Bot</title>
   <style>
+    :root {
+      --bg: #030712;
+      --card-bg: rgba(10, 20, 38, 0.75);
+      --border-cyan: #00e5ff;
+      --neon-green: #00ff88;
+      --neon-amber: #ffaa00;
+      --text-dim: #70829c;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -13,151 +22,322 @@
     }
 
     body {
-      background-color: #050b14;
+      background-color: var(--bg);
       color: #ffffff;
-      padding: 16px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
-    /* Cyberpunk HUD Card */
-    .neon-card {
-      background: rgba(10, 25, 47, 0.85);
-      border: 1.5px solid #00e5ff;
+    /* Banner Box */
+    .banner-box {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+    }
+    .banner-box img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Cyberpunk HUD Frame */
+    .hud-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-cyan);
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 229, 255, 0.2), 
-                  inset 0 0 10px rgba(0, 229, 255, 0.1);
+      padding: 12px 14px;
       position: relative;
-      padding: 14px 16px;
       backdrop-filter: blur(8px);
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.15), inset 0 0 8px rgba(0, 229, 255, 0.1);
     }
 
-    .neon-card::before {
+    .hud-card::before {
       content: '';
       position: absolute;
       top: -2px;
       left: 15%;
       width: 70%;
       height: 2px;
-      background: linear-gradient(90deg, transparent, #00ff88, transparent);
+      background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
     }
 
-    /* Account Header Box */
-    .account-card {
+    /* Account & Neural Status */
+    .account-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
     .badge-demo {
       background: rgba(255, 170, 0, 0.15);
-      color: #ffaa00;
-      border: 1px solid #ffaa00;
-      padding: 4px 10px;
+      color: var(--neon-amber);
+      border: 1px solid var(--neon-amber);
+      padding: 4px 8px;
       border-radius: 6px;
       font-weight: 700;
       font-size: 11px;
-      letter-spacing: 0.5px;
     }
-
     .badge-live {
       background: rgba(0, 255, 136, 0.15);
-      color: #00ff88;
-      border: 1px solid #00ff88;
-      padding: 4px 10px;
+      color: var(--neon-green);
+      border: 1px solid var(--neon-green);
+      padding: 4px 8px;
       border-radius: 6px;
       font-weight: 700;
       font-size: 11px;
-      letter-spacing: 0.5px;
     }
-
-    .broker-info {
-      color: #00e5ff;
-      font-size: 13px;
+    .broker-text {
+      color: var(--border-cyan);
       font-weight: 600;
-      letter-spacing: 0.5px;
+      font-size: 13px;
     }
 
-    /* Balance & Profit Rows */
-    .row-card {
+    /* System Status */
+    .sys-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+    }
+    .sys-title {
+      font-weight: bold;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--neon-green);
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--neon-green);
+    }
+
+    /* Clocks Grid */
+    .clock-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .clock-item {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 4px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+    }
+    .clock-lbl {
+      font-size: 9px;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .clock-val {
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    /* Market Card (Bid + Trend) */
+    .market-box {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
-    .stat-label {
-      color: #8892b0;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
+    .pair-name {
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
     }
-
-    .balance-val {
-      color: #00ff88;
+    .trend-badge {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 4px;
+      background: rgba(0, 255, 136, 0.15);
+      color: var(--neon-green);
+      border: 1px solid var(--neon-green);
+    }
+    .bid-area {
+      text-align: right;
+    }
+    .bid-price {
       font-size: 22px;
       font-weight: bold;
-      text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+      color: var(--border-cyan);
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+    }
+    .bid-lbl {
+      font-size: 10px;
+      color: var(--text-dim);
     }
 
+    /* Bot Running State Button */
+    .bot-status-btn {
+      width: 100%;
+      padding: 12px;
+      background: rgba(0, 255, 136, 0.08);
+      border: 1.5px solid var(--neon-green);
+      border-radius: 10px;
+      color: var(--neon-green);
+      font-weight: bold;
+      font-size: 13px;
+      letter-spacing: 1px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+    }
+
+    /* Live Balance & Profit Rows */
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .balance-val {
+      font-size: 22px;
+      font-weight: bold;
+      color: #fff;
+    }
     .profit-val {
-      color: #00ff88;
       font-size: 20px;
       font-weight: bold;
+      color: var(--neon-green);
       text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
     }
   </style>
 </head>
 <body>
 
-  <!-- Account Type & Broker / Account Number -->
-  <div class="neon-card account-card">
-    <span id="account-type" class="badge-demo">DEMO ACCOUNT</span>
-    <span id="broker-name" class="broker-info">EXNESS: 12345678</span>
+  <!-- Top Banner -->
+  <div class="banner-box">
+    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="QuantumEdge Bot">
   </div>
 
-  <!-- Single Live Balance Box -->
-  <div class="neon-card row-card">
-    <span class="stat-label">LIVE BALANCE</span>
+  <!-- Account Type, Broker & Neural System -->
+  <div class="hud-card">
+    <div class="account-row">
+      <span id="acc-type" class="badge-demo">DEMO ACCOUNT</span>
+      <span id="acc-broker" class="broker-text">EXNESS: 8492019</span>
+    </div>
+    
+    <div class="sys-header" style="margin-top: 12px;">
+      <span class="sys-title">⚡ QUANTUMEDGE</span>
+      <div class="status-indicator">
+        <div class="dot"></div>
+        <span>LIVE</span>
+      </div>
+    </div>
+
+    <!-- Clocks -->
+    <div class="clock-grid">
+      <div class="clock-item">
+        <div class="clock-lbl">INDIA (IST)</div>
+        <div id="time-ist" class="clock-val">--:--:--</div>
+      </div>
+      <div class="clock-item">
+        <div class="clock-lbl">LONDON (GMT)</div>
+        <div id="time-gmt" class="clock-val">--:--:--</div>
+      </div>
+      <div class="clock-item">
+        <div class="clock-lbl">NEW YORK (EST)</div>
+        <div id="time-est" class="clock-val">--:--:--</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Market Bid & Trend Card -->
+  <div class="hud-card market-box">
+    <div>
+      <div class="pair-name">XAUUSD-VIP</div>
+      <span id="market-trend" class="trend-badge">BULLISH TREND</span>
+    </div>
+    <div class="bid-area">
+      <div id="live-bid" class="bid-price">4367.39</div>
+      <div class="bid-lbl">LIVE BID</div>
+    </div>
+  </div>
+
+  <!-- Auto Bot Active Status -->
+  <div class="bot-status-btn">
+    <div class="dot"></div>
+    <span>AUTO BOT: RUNNING (ON)</span>
+  </div>
+
+  <!-- Live Balance (Only Balance, No Equity) -->
+  <div class="hud-card metric-row">
+    <span class="metric-label">LIVE BALANCE</span>
     <span id="live-balance" class="balance-val">$98,968.11</span>
   </div>
 
   <!-- Live Profit / Loss -->
-  <div class="neon-card row-card">
-    <span class="stat-label">LIVE PROFIT / LOSS</span>
+  <div class="hud-card metric-row">
+    <span class="metric-label">LIVE PROFIT / LOSS</span>
     <span id="live-profit" class="profit-val">+$0.00</span>
   </div>
 
   <script>
-    function updateDashboard(isLive, broker, accNo, balance, profit) {
-      const typeEl = document.getElementById("account-type");
-      const brokerEl = document.getElementById("broker-name");
-      const balanceEl = document.getElementById("live-balance");
+    // Live Clocks update
+    function updateClocks() {
+      const now = new Date();
+      document.getElementById('time-ist').innerText = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
+      document.getElementById('time-gmt').innerText = now.toLocaleTimeString('en-US', { timeZone: 'GMT', hour12: false });
+      document.getElementById('time-est').innerText = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false });
+    }
+    setInterval(updateClocks, 1000);
+    updateClocks();
+
+    // Data updater function
+    function updateDashboard(isLive, broker, accNo, trend, bid, balance, profit) {
+      // Account Type
+      const typeEl = document.getElementById("acc-type");
+      typeEl.innerText = isLive ? "REAL ACCOUNT" : "DEMO ACCOUNT";
+      typeEl.className = isLive ? "badge-live" : "badge-demo";
+
+      // Broker & Account Number
+      document.getElementById("acc-broker").innerText = `${broker}: ${accNo}`;
+
+      // Market Trend
+      const trendEl = document.getElementById("market-trend");
+      trendEl.innerText = trend.toUpperCase();
+      trendEl.style.color = trend.toLowerCase().includes("bull") ? "#00ff88" : "#ff4444";
+      trendEl.style.borderColor = trendEl.style.color;
+
+      // Bid, Balance, Profit
+      document.getElementById("live-bid").innerText = bid.toFixed(2);
+      document.getElementById("live-balance").innerText = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+      
       const profitEl = document.getElementById("live-profit");
-
-      // Live / Demo Switch
-      if (isLive) {
-        typeEl.innerText = "REAL ACCOUNT";
-        typeEl.className = "badge-live";
-      } else {
-        typeEl.innerText = "DEMO ACCOUNT";
-        typeEl.className = "badge-demo";
-      }
-
-      // Broker & Number
-      brokerEl.innerText = `${broker}: ${accNo}`;
-
-      // Balance
-      balanceEl.innerText = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-
-      // Profit / Loss
       profitEl.innerText = (profit >= 0 ? `+$${profit.toFixed(2)}` : `-$${Math.abs(profit).toFixed(2)}`);
       profitEl.style.color = profit >= 0 ? "#00ff88" : "#ff4444";
     }
 
-    // Example Usage:
-    // Arguments: isLive (true/false), BrokerName, AccountNumber, Balance, Profit
-    updateDashboard(false, "EXNESS", "8492019", 98968.11, 0.00);
+    // Default configuration (Edit values as needed)
+    updateDashboard(false, "EXNESS", "8492019", "BULLISH TREND", 4367.39, 98968.11, 0.00);
   </script>
 </body>
-</html>
+                                             </html>
+  
