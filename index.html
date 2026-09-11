@@ -1,65 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#050811">
-<title>QuantumEdge Pro Bot</title>
-<style>
-:root{--bg:#050811;--card-bg:rgba(13,19,33,.75);--card-border:rgba(0,215,255,.15);--cyan:#00e5ff;--cyan-glow:rgba(0,229,255,.35);--green:#00ff88;--green-glow:rgba(0,255,136,.35);--red:#ff3366;--red-glow:rgba(255,51,102,.35);--purple:#bf55ec;--gold:#ffcc00;--text:#fff;--subtext:#8292ab}
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);padding:14px;min-height:100vh;padding-bottom:30px}
-.banner-box{width:100%;border-radius:18px;overflow:hidden;margin-bottom:12px;border:1px solid rgba(0,229,255,.3);box-shadow:0 8px 24px rgba(0,229,255,.15)}
-.banner-box img{width:100%;height:180px;object-fit:cover;display:block}
-.app-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--card-bg);backdrop-filter:blur(12px);border:1px solid var(--card-border);border-radius:16px;margin-bottom:12px}
-.brand-box{display:flex;align-items:center;gap:10px}.brand-icon{font-size:20px;color:var(--cyan);text-shadow:0 0 10px var(--cyan)}.brand-title{font-size:15px;font-weight:900;letter-spacing:1px}.brand-sub{font-size:9px;color:var(--cyan);font-weight:700;letter-spacing:1.5px}
-.pulse-badge{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--green)}.pulse-dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 12px var(--green);animation:pulse 1.4s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.85)}}
-.market-clocks{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}.clock-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:8px 4px;text-align:center}.clock-tag{font-size:9px;font-weight:800;color:var(--cyan);text-transform:uppercase}.clock-val{font-size:11px;font-weight:800;margin-top:3px}
-.market-card{background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(13,19,33,.95));border:1px solid rgba(0,229,255,.35);border-radius:16px;padding:14px 16px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;box-shadow:inset 0 0 20px rgba(0,229,255,.05)}
-.symbol-name{font-size:20px;font-weight:900;letter-spacing:.5px}.trend-badge{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;background:rgba(0,255,136,.15);color:var(--green);border:1px solid rgba(0,255,136,.3)}.trend-badge.BEARISH{background:rgba(255,51,102,.15);color:var(--red);border-color:rgba(255,51,102,.3)}
-.live-bid{font-size:22px;font-weight:900;color:var(--cyan);text-shadow:0 0 12px var(--cyan-glow)}.live-sub{font-size:9px;color:var(--subtext);text-transform:uppercase;font-weight:700;text-align:right}
-.control-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:12px 16px;margin-bottom:12px}
-.btn-power{width:100%;padding:14px;border-radius:12px;font-size:13px;font-weight:900;letter-spacing:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s ease;border:1px solid #00ff88;background:rgba(0,255,136,.12);color:#00ff88;box-shadow:0 0 16px var(--green-glow)}
-.btn-power.off{border-color:#ff3366;background:rgba(255,51,102,.12);color:#ff3366;box-shadow:0 0 16px var(--red-glow)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}.card.full{grid-column:span 2}.card.cyan{border-color:rgba(0,229,255,.35)}.card.green{border-color:rgba(0,255,136,.35)}.card.purple{border-color:rgba(191,85,236,.35)}.card.gold{border-color:rgba(255,204,0,.35)}
-.card-label{font-size:10px;font-weight:700;color:var(--subtext);text-transform:uppercase}.card-val{font-size:17px;font-weight:900}.card-val.hero{font-size:26px}.val-up{color:var(--green);text-shadow:0 0 10px var(--green-glow)}.val-down{color:var(--red);text-shadow:0 0 10px var(--red-glow)}
-.sec-head{display:flex;justify-content:space-between;align-items:center;margin:16px 4px 8px}.sec-head span{font-size:11px;font-weight:800;color:var(--cyan);text-transform:uppercase}
-.order-item{background:#0d1321;border:1px solid #1a2336;border-left:4px solid var(--cyan);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.order-item.BUY{border-left-color:var(--green)}.order-item.SELL{border-left-color:var(--red)}.order-pnl{font-size:14px;font-weight:900}
-.sync-text{text-align:center;font-size:10px;color:var(--subtext);margin-top:18px}.empty-state{text-align:center;padding:22px;color:var(--subtext);font-size:11px;background:#080c16;border-radius:12px;border:1px dashed #1c263d}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QE BOT Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #050b14;
+      color: #ffffff;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Cyberpunk HUD Card */
+    .neon-card {
+      background: rgba(10, 25, 47, 0.85);
+      border: 1.5px solid #00e5ff;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.2), 
+                  inset 0 0 10px rgba(0, 229, 255, 0.1);
+      position: relative;
+      padding: 14px 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    .neon-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 15%;
+      width: 70%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00ff88, transparent);
+    }
+
+    /* Account Header Box */
+    .account-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .badge-demo {
+      background: rgba(255, 170, 0, 0.15);
+      color: #ffaa00;
+      border: 1px solid #ffaa00;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-live {
+      background: rgba(0, 255, 136, 0.15);
+      color: #00ff88;
+      border: 1px solid #00ff88;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .broker-info {
+      color: #00e5ff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* Balance & Profit Rows */
+    .row-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-label {
+      color: #8892b0;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .balance-val {
+      color: #00ff88;
+      font-size: 22px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    }
+
+    .profit-val {
+      color: #00ff88;
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+    }
+  </style>
 </head>
 <body>
-<div class="banner-box"><img src="https://i.ibb.co/S7R24yZd/1000248458.jpg" alt="QuantumEdge Bot"></div>
-<div class="app-header"><div class="brand-box"><div class="brand-icon">&#9889;</div><div><div class="brand-title">QUANTUMEDGE</div><span class="brand-sub">NEURAL SYSTEM</span></div></div><div class="pulse-badge"><div class="pulse-dot" id="dot"></div><span id="bot-status">LIVE</span></div></div>
-<div class="market-clocks"><div class="clock-card"><div class="clock-tag">India (IST)</div><div class="clock-val" id="t-india">--:--:--</div></div><div class="clock-card"><div class="clock-tag">London (GMT)</div><div class="clock-val" id="t-london">--:--:--</div></div><div class="clock-card"><div class="clock-tag">New York (EST)</div><div class="clock-val" id="t-ny">--:--:--</div></div></div>
-<div class="market-card"><div><div class="symbol-name" id="val-symbol">XAUUSD</div><div class="trend-badge" id="val-trend">BULLISH TREND</div></div><div><div class="live-bid" id="val-price">0.00</div><div class="live-sub">LIVE BID</div></div></div>
-<div class="control-card"><button class="btn-power" id="btn-toggle" onclick="toggleBot()"><span>&#9679;</span> AUTO BOT: RUNNING (ON)</button></div>
-<div class="grid"><div class="card cyan"><span class="card-label">Balance</span><span class="card-val" id="val-balance">$0.00</span></div><div class="card green"><span class="card-label">Equity</span><span class="card-val val-up" id="val-equity">$0.00</span></div><div class="card full purple"><span class="card-label">Live Profit / Loss</span><span class="card-val hero" id="val-pl">+$0.00</span></div><div class="card gold"><span class="card-label">Today P/L</span><span class="card-val" id="val-today">+$0.00</span></div><div class="card"><span class="card-label">Basket Status</span><span class="card-val" id="val-open">0 / 3</span></div></div>
-<div class="sec-head"><span>Active Orders</span><span id="order-badge">0 RUNNING</span></div>
-<div id="order-container"><div class="empty-state">No Active Orders Running...</div></div>
-<div class="sync-text" id="sync-time">Last Sync: --:--:--</div>
-<script>
-const FIREBASE_BASE="https://quantumedge-trading-a9312-default-rtdb.asia-southeast1.firebasedatabase.app/";
-let botRunning=true;
-function updateWorldTime(){const now=new Date();document.getElementById('t-india').innerText=now.toLocaleTimeString('en-US',{timeZone:'Asia/Kolkata',hour12:false});document.getElementById('t-london').innerText=now.toLocaleTimeString('en-US',{timeZone:'Europe/London',hour12:false});document.getElementById('t-ny').innerText=now.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour12:false})}
-setInterval(updateWorldTime,1000);updateWorldTime();
-async function toggleBot(){botRunning=!botRunning;const btn=document.getElementById("btn-toggle");const cmd=botRunning?"BOT_START":"BOT_STOP";if(botRunning){btn.className="btn-power";btn.innerHTML="<span>&#9679;</span> AUTO BOT: RUNNING (ON)"}else{btn.className="btn-power off";btn.innerHTML="<span>&#9632;</span> AUTO BOT: STOPPED (OFF)"}try{await fetch(FIREBASE_BASE+"command.json",{method:"PUT",body:JSON.stringify({action:cmd,time:new Date().toISOString()})})}catch(e){}}
-async function syncData(){try{const res=await fetch(FIREBASE_BASE+"quantum_data.json?t="+Date.now());const d=await res.json();if(!d)return;
-if(d.symbol)document.getElementById("val-symbol").innerText=d.symbol;
-let displayPrice=0;if(d.price&&Number(d.price)>0)displayPrice=Number(d.price);else if(d.orders&&d.orders.length>0&&d.orders[0].open_price)displayPrice=Number(d.orders[0].open_price);
-if(displayPrice>0)document.getElementById("val-price").innerText=displayPrice.toFixed(2);
-if(d.trend){const trEl=document.getElementById("val-trend");trEl.innerText=d.trend+" TREND";trEl.className="trend-badge "+(d.trend.toUpperCase()==="BEARISH"?"BEARISH":"")}
-document.getElementById("val-balance").innerText="$"+Number(d.balance||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
-document.getElementById("val-equity").innerText="$"+Number(d.equity||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
-const pl=Number(d.live_profit||0),plEl=document.getElementById("val-pl");plEl.innerText=(pl>=0?"+$":"-$")+Math.abs(pl).toFixed(2);plEl.className="card-val hero "+(pl>=0?"val-up":"val-down");
-if(d.today_gain!==undefined){const td=Number(d.today_gain),tdEl=document.getElementById("val-today");tdEl.innerText=(td>=0?"+$":"-$")+Math.abs(td).toFixed(2);tdEl.className="card-val "+(td>=0?"val-up":"val-down")}
-const count=Number(d.open_count||0);document.getElementById("val-open").innerText=count+" / 3";document.getElementById("order-badge").innerText=count+" RUNNING";
-const listEl=document.getElementById("order-container");
-if(d.orders&&d.orders.length>0){listEl.innerHTML="";d.orders.forEach(o=>{const profit=Number(o.profit||0),isP=profit>=0;const openPrice=Number(o.open_price||0);listEl.innerHTML+=`<div class="order-item ${o.type||''}"><div><div style="font-size:12px;font-weight:800;">#${o.ticket||'-'} ${o.type||''}</div><div style="font-size:10px;color:var(--subtext);">Price: ${openPrice.toFixed(2)} | Time: ${o.time||'--:--'}</div></div><div class="order-pnl ${isP?'val-up':'val-down'}">${isP?'+':''}$${profit.toFixed(2)}</div></div>`})}else listEl.innerHTML='<div class="empty-state">No Active Orders Running...</div>';
-document.getElementById("sync-time").innerText="Last Sync: "+(d.time||"N/A");document.getElementById("bot-status").innerText="LIVE";document.getElementById("bot-status").style.color="var(--green)";document.getElementById("dot").style.background="var(--green)";
-}catch(err){document.getElementById("bot-status").innerText="DISCONNECTED";document.getElementById("bot-status").style.color="var(--red)";document.getElementById("dot").style.background="var(--red)"}}
-setInterval(syncData,1000);syncData();
-</script>
+
+  <!-- Account Type & Broker / Account Number -->
+  <div class="neon-card account-card">
+    <span id="account-type" class="badge-demo">DEMO ACCOUNT</span>
+    <span id="broker-name" class="broker-info">EXNESS: 12345678</span>
+  </div>
+
+  <!-- Single Live Balance Box -->
+  <div class="neon-card row-card">
+    <span class="stat-label">LIVE BALANCE</span>
+    <span id="live-balance" class="balance-val">$98,968.11</span>
+  </div>
+
+  <!-- Live Profit / Loss -->
+  <div class="neon-card row-card">
+    <span class="stat-label">LIVE PROFIT / LOSS</span>
+    <span id="live-profit" class="profit-val">+$0.00</span>
+  </div>
+
+  <script>
+    function updateDashboard(isLive, broker, accNo, balance, profit) {
+      const typeEl = document.getElementById("account-type");
+      const brokerEl = document.getElementById("broker-name");
+      const balanceEl = document.getElementById("live-balance");
+      const profitEl = document.getElementById("live-profit");
+
+      // Live / Demo Switch
+      if (isLive) {
+        typeEl.innerText = "REAL ACCOUNT";
+        typeEl.className = "badge-live";
+      } else {
+        typeEl.innerText = "DEMO ACCOUNT";
+        typeEl.className = "badge-demo";
+      }
+
+      // Broker & Number
+      brokerEl.innerText = `${broker}: ${accNo}`;
+
+      // Balance
+      balanceEl.innerText = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+
+      // Profit / Loss
+      profitEl.innerText = (profit >= 0 ? `+$${profit.toFixed(2)}` : `-$${Math.abs(profit).toFixed(2)}`);
+      profitEl.style.color = profit >= 0 ? "#00ff88" : "#ff4444";
+    }
+
+    // Example Usage:
+    // Arguments: isLive (true/false), BrokerName, AccountNumber, Balance, Profit
+    updateDashboard(false, "EXNESS", "8492019", 98968.11, 0.00);
+  </script>
 </body>
 </html>
